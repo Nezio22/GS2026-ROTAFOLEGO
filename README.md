@@ -33,10 +33,16 @@ npm run preview
 
 ```
 src/
-  components/  → Navbar, Footer, Layout, Card, Button, FormField, Loading, ErrorMessage, TipoBadge
+  components/
+    layout/    → Navbar, Footer, PageContainer
+    ui/        → Button, Select, SectionHeading, Badge, FormField,
+                 Loading, ErrorMessage, EmptyState, Reveal
+    pontos/    → PontoCard, PontoFilters, PontoForm
+    trajeto/   → TrajetoPointItem, TrajetoSummary
   pages/       → Home, Sobre, Integrantes, IntegranteDetalhe, Faq, Contato,
                  Pontos, PontoDetalhe, PlanejarTrajeto, NotFound
-  services/    → api.ts (camada de serviço com Fetch)
+  services/    → api.ts (config + helper Fetch), pontoService.ts (pontos)
+  lib/         → pontos.ts (tipos e ícones), trajeto.ts (distância/tempo)
   data/        → mockPontos.ts, integrantes.ts (dados de exemplo)
   types/       → ponto.ts, integrante.ts
 ```
