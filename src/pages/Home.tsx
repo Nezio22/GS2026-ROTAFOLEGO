@@ -8,19 +8,19 @@ const ajuda = [
   {
     titulo: "Pontos de descanso",
     texto: "Encontre bancos, sombras, bebedouros, marquises e banheiros acessíveis.",
-    img: "/images/01_Home/card_banco_descanso.png",
+    img: "/images/08_Ilustracoes_Originais_Alta_Resolucao/ilustracao_ponto_completo.png",
     Icon: MapPin,
   },
   {
     titulo: "Trajetos com paradas",
     texto: "Organize seu caminho considerando oportunidades para descansar.",
-    img: "/images/01_Home/card_mapa_rota.png",
+    img: "/images/08_Ilustracoes_Originais_Alta_Resolucao/ilustracao_mapa_pontos.png",
     Icon: Route,
   },
   {
     titulo: "Feito pela comunidade",
     texto: "Pessoas podem cadastrar e avaliar pontos para ajudar outras pessoas.",
-    img: "/images/01_Home/card_comunidade.png",
+    img: "/images/08_Ilustracoes_Originais_Alta_Resolucao/ilustracao_grupo_acessibilidade.png",
     Icon: Users,
   },
 ];
