@@ -5,7 +5,8 @@ import type { Integrante } from "../types/integrante";
 export const integrantes: Integrante[] = [
   {
     slug: "matheus",
-    nome: "Matheus Nezio",
+    nome: "Matheus Faria Nezio",
+    rm: "571702",
     papel: "Front-End Design Engineering",
     disciplinas: ["Front-End Design Engineering"],
     contribuicoes: [
@@ -19,7 +20,8 @@ export const integrantes: Integrante[] = [
   },
   {
     slug: "julia",
-    nome: "Julia Almeida",
+    nome: "Júlia Rodrigues de Oliveira Almeida",
+    rm: "571244",
     papel: "Banco de Dados e Back-End Java",
     disciplinas: ["Building Relational Database", "Domain Driven Design Using Java"],
     contribuicoes: [
@@ -31,7 +33,8 @@ export const integrantes: Integrante[] = [
   },
   {
     slug: "alexandre",
-    nome: "Alexandre Prazeres",
+    nome: "Alexandre Prazeres dos Santos",
+    rm: "573059",
     papel: "IA, Python e Software Engineering",
     disciplinas: [
       "Artificial Intelligence & Chatbot",

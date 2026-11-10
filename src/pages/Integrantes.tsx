@@ -35,6 +35,7 @@ export default function Integrantes() {
                 </div>
                 <h2 className="mt-4 text-lg font-extrabold text-folego-700">{pessoa.nome}</h2>
                 <p className="mt-1 text-sm font-medium text-terracota">{pessoa.papel}</p>
+                {pessoa.rm && <p className="mt-1 text-xs text-grafite/60">RM {pessoa.rm}</p>}
 
                 <div className="mt-3 flex flex-wrap justify-center gap-1.5">
                   {pessoa.disciplinas.map((d) => (
