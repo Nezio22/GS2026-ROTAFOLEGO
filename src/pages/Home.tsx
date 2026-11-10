@@ -32,12 +32,6 @@ export default function Home() {
     <div>
       {/* HERO — texto primeiro no celular; imagem full-bleed à direita no desktop */}
       <section className="relative overflow-hidden">
-        <img
-          src="/images/00_Identidade_Visual/padrao_organico.png"
-          alt=""
-          aria-hidden
-          className="pointer-events-none absolute -left-16 -top-10 hidden w-72 opacity-10 lg:block"
-        />
 
         <PageContainer className="relative py-10 lg:py-24">
           <Reveal className="lg:max-w-[52%]">
@@ -104,12 +98,6 @@ export default function Home() {
 
       {/* FAIXA ODS (full-bleed) */}
       <section className="relative overflow-hidden bg-folego-700 text-white">
-        <img
-          src="/images/00_Identidade_Visual/padrao_organico.png"
-          alt=""
-          aria-hidden
-          className="pointer-events-none absolute -left-10 bottom-0 w-64 opacity-10"
-        />
         <PageContainer className="relative grid items-center gap-8 py-12 md:grid-cols-[1fr_1.5fr] lg:py-16">
           <Reveal>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-salvia">

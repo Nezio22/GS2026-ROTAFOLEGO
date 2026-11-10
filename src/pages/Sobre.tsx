@@ -32,12 +32,6 @@ const cards = [
 export default function Sobre() {
   return (
     <section className="relative overflow-hidden">
-      <img
-        src="/images/00_Identidade_Visual/padrao_organico.png"
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute -left-16 top-20 hidden w-64 opacity-10 lg:block"
-      />
 
       <PageContainer className="relative py-10 lg:py-16">
         <div className="lg:max-w-[58%]">

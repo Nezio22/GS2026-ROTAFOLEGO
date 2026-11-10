@@ -7,12 +7,6 @@ import { integrantes } from "../data/integrantes";
 export default function Integrantes() {
   return (
     <section className="relative overflow-hidden py-10 sm:py-14">
-      <img
-        src="/images/00_Identidade_Visual/padrao_organico.png"
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute -right-16 top-10 hidden w-72 opacity-10 lg:block"
-      />
       <PageContainer className="relative">
         <Reveal className="max-w-2xl">
           <div className="flex items-center gap-2 text-folego-700">
