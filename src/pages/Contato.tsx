@@ -34,57 +34,58 @@ export default function Contato() {
     setInfo(false);
     if (!validar()) return;
     setEnviando(true);
-    // Não há back-end de contato: validamos os dados e informamos a situação com honestidade.
+    // Não há back-end de contato: validamos e informamos a situação com honestidade.
     await new Promise((r) => setTimeout(r, 600));
     setEnviando(false);
     setInfo(true);
   }
 
   return (
-    <div className="py-10 sm:py-14">
-      <PageContainer className="grid gap-10 lg:grid-cols-2 lg:items-center">
-        {/* Esquerda */}
-        <Reveal>
-          <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-folego-500">
-            Contato
-          </p>
-          <h1 className="mt-3 text-3xl font-extrabold text-folego-700 sm:text-4xl">
-            Estamos aqui para ouvir você.
-          </h1>
-          <p className="mt-4 text-grafite/80">
-            Tem alguma dúvida, sugestão ou ideia para tornar a cidade mais acessível? Entre em
-            contato com nossa equipe.
-          </p>
-          <div className="mt-6 overflow-hidden rounded-3xl bg-areia/30">
-            <img
-              src="/images/07_Contato/parque_banco_poste.png"
-              alt="Ilustração de um parque com banco e poste de iluminação"
-              loading="lazy"
-              className="max-h-80 w-full object-contain"
-            />
-          </div>
-        </Reveal>
+    <section className="relative overflow-hidden">
+      <img
+        src="/images/00_Identidade_Visual/padrao_organico.png"
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute -left-16 bottom-10 w-64 opacity-10"
+      />
 
-        {/* Direita — formulário */}
-        <Reveal delay={100}>
-          <div className="rounded-3xl border border-folego-100 bg-white p-6 shadow-card sm:p-8">
+      {/* Ilustração — altura cheia à direita */}
+      <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-[40%]">
+        <img
+          src="/images/07_Contato/parque_banco_poste.png"
+          alt="Ilustração de um parque com banco e poste de iluminação"
+          loading="lazy"
+          className="h-56 w-full object-cover sm:h-80 lg:h-full"
+        />
+        <div
+          className="absolute inset-y-0 left-0 hidden w-32 bg-gradient-to-r from-offwhite to-transparent lg:block"
+          aria-hidden
+        />
+      </div>
+
+      <PageContainer className="relative py-12 lg:py-16">
+        <div className="lg:max-w-[55%]">
+          <Reveal>
             <div className="flex items-center gap-2 text-folego-700">
-              <Mail className="h-5 w-5" aria-hidden />
-              <h2 className="text-lg font-extrabold">Envie uma mensagem</h2>
+              <Mail className="h-7 w-7" aria-hidden />
+              <h1 className="text-3xl font-extrabold sm:text-4xl">Contato</h1>
             </div>
+            <p className="mt-2 text-grafite/80">Fale com a equipe do Rota do Fôlego.</p>
+          </Reveal>
 
-            {info && (
-              <div className="mt-4 flex items-start gap-2 rounded-xl bg-folego-50 px-4 py-3 text-sm text-folego-700">
-                <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-                <span>
-                  Seus dados foram validados. O envio ainda não está conectado a um servidor —
-                  esta interface está preparada para a integração futura, então nada foi enviado.
-                </span>
-              </div>
-            )}
+          {info && (
+            <div className="mt-6 flex items-start gap-2 rounded-xl bg-folego-50 px-4 py-3 text-sm text-folego-700">
+              <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+              <span>
+                Seus dados foram validados. O envio ainda não está conectado a um servidor —
+                esta interface está preparada para a integração futura, então nada foi enviado.
+              </span>
+            </div>
+          )}
 
-            <form onSubmit={handleSubmit} noValidate className="mt-5 space-y-4">
-              <FormField label="Nome" htmlFor="nome" required error={erros.nome}>
+          <Reveal delay={80}>
+            <form onSubmit={handleSubmit} noValidate className="mt-6 max-w-xl space-y-5">
+              <FormField label="Nome" htmlFor="nome" error={erros.nome}>
                 <input
                   id="nome"
                   value={nome}
@@ -94,7 +95,7 @@ export default function Contato() {
                 />
               </FormField>
 
-              <FormField label="E-mail" htmlFor="email" required error={erros.email}>
+              <FormField label="E-mail" htmlFor="email" error={erros.email}>
                 <input
                   id="email"
                   type="email"
@@ -105,18 +106,18 @@ export default function Contato() {
                 />
               </FormField>
 
-              <FormField label="Mensagem" htmlFor="mensagem" required error={erros.mensagem}>
+              <FormField label="Mensagem" htmlFor="mensagem" error={erros.mensagem}>
                 <textarea
                   id="mensagem"
                   value={mensagem}
                   onChange={(e) => setMensagem(e.target.value)}
-                  rows={4}
+                  rows={5}
                   className={inputClasses}
                   placeholder="Escreva sua mensagem..."
                 />
               </FormField>
 
-              <Button type="submit" disabled={enviando} fullWidth>
+              <Button type="submit" disabled={enviando}>
                 {enviando ? (
                   "Processando..."
                 ) : (
@@ -127,9 +128,9 @@ export default function Contato() {
                 )}
               </Button>
             </form>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </PageContainer>
-    </div>
+    </section>
   );
 }
