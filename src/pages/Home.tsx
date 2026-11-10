@@ -66,8 +66,8 @@ export default function Home() {
         {/* Imagem: bloco após o texto no celular, absoluta à direita no desktop */}
         <div className="px-4 pb-10 lg:absolute lg:inset-y-0 lg:right-0 lg:w-[48%] lg:px-0 lg:pb-0">
           <img
-            src="/images/01_Home/hero_casal_caminhada.png"
-            alt="Casal de idosos caminhando com tranquilidade por um parque arborizado"
+            src="/images/08_Ilustracoes_Originais_Alta_Resolucao/ilustracao_acessibilidade_parque.png"
+            alt="Idoso, gestante, cadeirante e idosa caminhando por um parque, com um celular mostrando a rota de pontos de descanso"
             className="h-56 w-full rounded-3xl object-cover sm:h-72 lg:h-full lg:rounded-none"
           />
           <div
