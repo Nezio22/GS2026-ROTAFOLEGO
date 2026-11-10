@@ -12,6 +12,19 @@ Projeto da disciplina **Front-End Design Engineering** — Global Solution 2026/
 - Tailwind CSS
 - react-router-dom
 - **Fetch API** para as requisições (sem Axios)
+- lucide-react (ícones)
+
+## Funcionalidades
+
+- **Pontos de descanso:** busca por nome/bairro/endereço, filtro por tipo e cadastro de
+  novos pontos (formulário com validação).
+- **Detalhe do ponto:** avaliações e envio de nova avaliação (rota dinâmica `/ponto/:id`).
+- **Planejar trajeto:** seleção de paradas com reordenação (arrastar), cálculo de
+  **distância e tempo estimados a partir das coordenadas reais** e geração da rota a pé
+  no Google Maps.
+- **Páginas institucionais:** Home, Sobre, Integrantes, FAQ e Contato.
+- **Estados tratados** em toda a aplicação: carregando, erro, lista vazia e sucesso.
+- **Dropdown customizado** com a identidade visual (sem o `<select>` nativo).
 
 ## Como rodar
 
