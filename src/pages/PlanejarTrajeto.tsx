@@ -27,6 +27,17 @@ export default function PlanejarTrajeto() {
     );
   }
 
+  function mover(id: number, dir: "up" | "down") {
+    setSelecionados((atual) => {
+      const idx = atual.indexOf(id);
+      const alvo = dir === "up" ? idx - 1 : idx + 1;
+      if (idx === -1 || alvo < 0 || alvo >= atual.length) return atual;
+      const copia = [...atual];
+      [copia[idx], copia[alvo]] = [copia[alvo], copia[idx]];
+      return copia;
+    });
+  }
+
   // mantém a ordem de seleção
   const trajeto = useMemo(
     () =>
@@ -82,6 +93,7 @@ export default function PlanejarTrajeto() {
               <TrajetoSummary
                 trajeto={trajeto}
                 onRemove={(id) => setSelecionados((a) => a.filter((x) => x !== id))}
+                onMove={mover}
               />
             </div>
           </div>
