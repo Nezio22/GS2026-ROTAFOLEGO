@@ -6,10 +6,7 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 import EmptyState from "../components/ui/EmptyState";
 import Button from "../components/ui/Button";
 import PontoCard from "../components/pontos/PontoCard";
-import PontoFilters, {
-  type FiltroTipo,
-  type Ordenacao,
-} from "../components/pontos/PontoFilters";
+import PontoFilters, { type FiltroTipo } from "../components/pontos/PontoFilters";
 import PontoForm from "../components/pontos/PontoForm";
 import { getPontos } from "../services/pontoService";
 import type { PontoDescanso } from "../types/ponto";
@@ -21,7 +18,6 @@ export default function Pontos() {
 
   const [busca, setBusca] = useState("");
   const [tipo, setTipo] = useState<FiltroTipo>("todos");
-  const [ordenacao, setOrdenacao] = useState<Ordenacao>("nome");
 
   const formRef = useRef<HTMLDivElement>(null);
 
@@ -50,10 +46,8 @@ export default function Pontos() {
           p.dsEndereco.toLowerCase().includes(q)
         );
       })
-      .sort((a, b) =>
-        ordenacao === "nota" ? b.notaMedia - a.notaMedia : a.nmPonto.localeCompare(b.nmPonto)
-      );
-  }, [pontos, busca, tipo, ordenacao]);
+      .sort((a, b) => a.nmPonto.localeCompare(b.nmPonto));
+  }, [pontos, busca, tipo]);
 
   function irParaCadastro() {
     formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -90,8 +84,6 @@ export default function Pontos() {
             onBusca={setBusca}
             tipo={tipo}
             onTipo={setTipo}
-            ordenacao={ordenacao}
-            onOrdenacao={setOrdenacao}
             onCadastrar={irParaCadastro}
           />
         </div>

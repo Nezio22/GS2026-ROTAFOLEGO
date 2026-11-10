@@ -3,15 +3,12 @@ import type { TipoPonto } from "../../types/ponto";
 import { TIPOS, tipoInfo } from "../../lib/pontos";
 
 export type FiltroTipo = TipoPonto | "todos";
-export type Ordenacao = "nome" | "nota";
 
 interface PontoFiltersProps {
   busca: string;
   onBusca: (v: string) => void;
   tipo: FiltroTipo;
   onTipo: (t: FiltroTipo) => void;
-  ordenacao: Ordenacao;
-  onOrdenacao: (o: Ordenacao) => void;
   onCadastrar: () => void;
 }
 
@@ -20,13 +17,8 @@ export default function PontoFilters({
   onBusca,
   tipo,
   onTipo,
-  ordenacao,
-  onOrdenacao,
   onCadastrar,
 }: PontoFiltersProps) {
-  const selectClasses =
-    "rounded-xl border border-folego-100 bg-white py-2.5 pl-10 pr-8 text-sm font-medium text-folego-700 focus:border-folego-500 focus:outline-none focus:ring-2 focus:ring-folego-500/30";
-
   return (
     <div className="flex flex-col gap-3 rounded-3xl border border-folego-100 bg-white p-4 shadow-card md:flex-row md:items-center">
       {/* Busca */}
@@ -55,7 +47,7 @@ export default function PontoFilters({
           value={tipo}
           onChange={(e) => onTipo(e.target.value as FiltroTipo)}
           aria-label="Filtrar por tipo de ponto"
-          className={selectClasses}
+          className="w-full rounded-xl border border-folego-100 bg-white py-2.5 pl-10 pr-8 text-sm font-medium text-folego-700 focus:border-folego-500 focus:outline-none focus:ring-2 focus:ring-folego-500/30 md:w-auto"
         >
           <option value="todos">Todos os tipos</option>
           {TIPOS.map((t) => (
@@ -63,19 +55,6 @@ export default function PontoFilters({
               {tipoInfo[t].label}
             </option>
           ))}
-        </select>
-      </div>
-
-      {/* Ordenação */}
-      <div className="relative">
-        <select
-          value={ordenacao}
-          onChange={(e) => onOrdenacao(e.target.value as Ordenacao)}
-          aria-label="Ordenar pontos"
-          className="rounded-xl border border-folego-100 bg-white px-3.5 py-2.5 pr-8 text-sm font-medium text-folego-700 focus:border-folego-500 focus:outline-none focus:ring-2 focus:ring-folego-500/30"
-        >
-          <option value="nome">Ordenar: Nome</option>
-          <option value="nota">Ordenar: Avaliação</option>
         </select>
       </div>
 
