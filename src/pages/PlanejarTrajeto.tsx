@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type DragEvent } from "react";
 import PageContainer from "../components/layout/PageContainer";
 import Reveal from "../components/ui/Reveal";
 import Loading from "../components/ui/Loading";
@@ -10,13 +10,18 @@ import type { PontoDescanso } from "../types/ponto";
 
 export default function PlanejarTrajeto() {
   const [pontos, setPontos] = useState<PontoDescanso[]>([]);
+  const [ordem, setOrdem] = useState<number[]>([]);
+  const [selecionados, setSelecionados] = useState<number[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
-  const [selecionados, setSelecionados] = useState<number[]>([]);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
 
   useEffect(() => {
     getPontos()
-      .then(setPontos)
+      .then((lista) => {
+        setPontos(lista);
+        setOrdem(lista.map((p) => p.cdPonto));
+      })
       .catch(() => setErro("Não foi possível carregar os pontos."))
       .finally(() => setCarregando(false));
   }, []);
@@ -27,25 +32,40 @@ export default function PlanejarTrajeto() {
     );
   }
 
-  function mover(id: number, dir: "up" | "down") {
-    setSelecionados((atual) => {
-      const idx = atual.indexOf(id);
-      const alvo = dir === "up" ? idx - 1 : idx + 1;
-      if (idx === -1 || alvo < 0 || alvo >= atual.length) return atual;
-      const copia = [...atual];
-      [copia[idx], copia[alvo]] = [copia[alvo], copia[idx]];
-      return copia;
-    });
-  }
-
-  // mantém a ordem de seleção
-  const trajeto = useMemo(
+  // Lista na ordem atual (reordenável por arrastar)
+  const pontosOrdenados = useMemo(
     () =>
-      selecionados
+      ordem
         .map((id) => pontos.find((p) => p.cdPonto === id))
         .filter((p): p is PontoDescanso => Boolean(p)),
-    [selecionados, pontos]
+    [ordem, pontos]
   );
+
+  // Trajeto = pontos marcados, respeitando a ordem da lista
+  const trajeto = useMemo(
+    () => pontosOrdenados.filter((p) => selecionados.includes(p.cdPonto)),
+    [pontosOrdenados, selecionados]
+  );
+
+  function onDragStart(index: number) {
+    setDragIndex(index);
+  }
+  function onDragOver(e: DragEvent, _index: number) {
+    e.preventDefault();
+  }
+  function onDrop(destino: number) {
+    if (dragIndex === null || dragIndex === destino) {
+      setDragIndex(null);
+      return;
+    }
+    setOrdem((prev) => {
+      const copia = [...prev];
+      const [movido] = copia.splice(dragIndex, 1);
+      copia.splice(destino, 0, movido);
+      return copia;
+    });
+    setDragIndex(null);
+  }
 
   return (
     <div className="py-10 sm:py-14">
@@ -58,7 +78,8 @@ export default function PlanejarTrajeto() {
             Monte um caminho com as suas paradas.
           </h1>
           <p className="mt-3 text-grafite/80">
-            Escolha os pontos de descanso por onde quer passar e veja o resumo do seu percurso.
+            Marque os pontos de descanso por onde quer passar, arraste para ordenar e veja o
+            resumo do seu percurso.
           </p>
         </Reveal>
 
@@ -71,30 +92,27 @@ export default function PlanejarTrajeto() {
 
         {!carregando && !erro && (
           <div className="mt-8 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
-            {/* Seleção */}
             <div>
-              <h2 className="mb-4 text-lg font-extrabold text-folego-700">
-                Pontos disponíveis
-              </h2>
+              <h2 className="mb-4 text-lg font-extrabold text-folego-700">Pontos disponíveis</h2>
               <div className="space-y-3">
-                {pontos.map((p) => (
+                {pontosOrdenados.map((p, i) => (
                   <TrajetoPointItem
                     key={p.cdPonto}
                     ponto={p}
+                    index={i}
                     selecionado={selecionados.includes(p.cdPonto)}
                     onToggle={alternar}
+                    onDragStart={onDragStart}
+                    onDragOver={onDragOver}
+                    onDrop={onDrop}
+                    arrastando={dragIndex === i}
                   />
                 ))}
               </div>
             </div>
 
-            {/* Resumo */}
             <div>
-              <TrajetoSummary
-                trajeto={trajeto}
-                onRemove={(id) => setSelecionados((a) => a.filter((x) => x !== id))}
-                onMove={mover}
-              />
+              <TrajetoSummary trajeto={trajeto} />
             </div>
           </div>
         )}
