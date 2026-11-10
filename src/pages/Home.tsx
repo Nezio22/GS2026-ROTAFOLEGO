@@ -1,4 +1,13 @@
-import { MapPin, Route, Users, ArrowRight, Footprints } from "lucide-react";
+import {
+  MapPin,
+  Route,
+  Users,
+  ArrowRight,
+  Footprints,
+  Building2,
+  HeartPulse,
+  Scale,
+} from "lucide-react";
 import PageContainer from "../components/layout/PageContainer";
 import SectionHeading from "../components/ui/SectionHeading";
 import Button from "../components/ui/Button";
@@ -32,9 +41,9 @@ const passos = [
 ];
 
 const ods = [
-  { n: "11", titulo: "Cidades e comunidades sustentáveis" },
-  { n: "3", titulo: "Saúde e bem-estar" },
-  { n: "10", titulo: "Redução das desigualdades" },
+  { n: "11", titulo: "Cidades e comunidades sustentáveis", cor: "#FD9D24", Icon: Building2 },
+  { n: "3", titulo: "Saúde e bem-estar", cor: "#4C9F38", Icon: HeartPulse },
+  { n: "10", titulo: "Redução das desigualdades", cor: "#DD1367", Icon: Scale },
 ];
 
 export default function Home() {
@@ -174,16 +183,19 @@ export default function Home() {
                   O Rota do Fôlego se conecta aos Objetivos de Desenvolvimento Sustentável
                   da ONU, colocando o cidadão no centro da inovação.
                 </p>
-                <ul className="mt-6 space-y-3">
+                <div className="mt-6 grid grid-cols-3 gap-3">
                   {ods.map((o) => (
-                    <li key={o.n} className="flex items-center gap-3">
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/15 text-sm font-extrabold">
-                        {o.n}
-                      </span>
-                      <span className="text-sm text-white/90">ODS {o.n} — {o.titulo}</span>
-                    </li>
+                    <div
+                      key={o.n}
+                      className="rounded-2xl p-4 text-white shadow-sm"
+                      style={{ backgroundColor: o.cor }}
+                    >
+                      <o.Icon className="h-6 w-6" aria-hidden />
+                      <p className="mt-2 text-2xl font-extrabold leading-none">{o.n}</p>
+                      <p className="mt-1.5 text-xs font-semibold leading-tight">{o.titulo}</p>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
               <div className="h-full min-h-[240px]">
                 <img
