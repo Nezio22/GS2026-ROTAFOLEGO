@@ -34,7 +34,7 @@ export default function Home() {
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link to="/pontos">
-            <Button>Ver pontos de descanso</Button>
+            <Button variant="terracota">Ver pontos de descanso</Button>
           </Link>
           <Link to="/planejar">
             <Button variant="outline" className="border-white text-white hover:bg-white/10">

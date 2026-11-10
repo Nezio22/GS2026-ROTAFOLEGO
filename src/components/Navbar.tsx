@@ -25,10 +25,12 @@ export default function Navbar() {
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link to="/" className="flex items-center gap-2" onClick={() => setAberto(false)}>
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-folego-600 text-sm font-bold text-white">
-            RF
-          </span>
-          <span className="text-lg font-bold text-folego-900">Rota do Fôlego</span>
+          <img
+            src="/logo-icon.png"
+            alt="Rota do Fôlego"
+            className="h-9 w-9 rounded-lg object-contain"
+          />
+          <span className="text-lg font-extrabold text-folego-600">Rota do Fôlego</span>
         </Link>
 
         {/* Menu desktop */}
