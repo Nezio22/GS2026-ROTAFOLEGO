@@ -1,37 +1,36 @@
-import { useEffect, useState, type FormEvent } from "react";
-import { Link } from "react-router-dom";
-import { getPontos, criarPonto } from "../services/api";
-import type { PontoDescanso, TipoPonto, NovoPonto } from "../types/ponto";
-import Card from "../components/Card";
-import Button from "../components/Button";
-import FormField from "../components/FormField";
-import Loading from "../components/Loading";
-import ErrorMessage from "../components/ErrorMessage";
-import TipoBadge from "../components/TipoBadge";
-
-const tipos: TipoPonto[] = ["banco", "sombra", "marquise", "bebedouro", "banheiro"];
+import { useEffect, useMemo, useRef, useState } from "react";
+import PageContainer from "../components/layout/PageContainer";
+import Reveal from "../components/ui/Reveal";
+import Loading from "../components/ui/Loading";
+import ErrorMessage from "../components/ui/ErrorMessage";
+import EmptyState from "../components/ui/EmptyState";
+import Button from "../components/ui/Button";
+import PontoCard from "../components/pontos/PontoCard";
+import PontoFilters, {
+  type FiltroTipo,
+  type Ordenacao,
+} from "../components/pontos/PontoFilters";
+import PontoForm from "../components/pontos/PontoForm";
+import { getPontos } from "../services/pontoService";
+import type { PontoDescanso } from "../types/ponto";
 
 export default function Pontos() {
   const [pontos, setPontos] = useState<PontoDescanso[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 
-  // Formulário de cadastro (POST)
-  const [nmPonto, setNmPonto] = useState("");
-  const [dsEndereco, setDsEndereco] = useState("");
-  const [bairro, setBairro] = useState("");
-  const [tipo, setTipo] = useState<TipoPonto>("banco");
-  const [coberto, setCoberto] = useState(false);
-  const [erroForm, setErroForm] = useState("");
-  const [sucesso, setSucesso] = useState("");
-  const [salvando, setSalvando] = useState(false);
+  const [busca, setBusca] = useState("");
+  const [tipo, setTipo] = useState<FiltroTipo>("todos");
+  const [ordenacao, setOrdenacao] = useState<Ordenacao>("nome");
+
+  const formRef = useRef<HTMLDivElement>(null);
 
   function carregar() {
     setCarregando(true);
     setErro("");
     getPontos()
       .then(setPontos)
-      .catch(() => setErro("Não foi possível carregar os pontos."))
+      .catch(() => setErro("Não foi possível carregar os pontos. Tente novamente mais tarde."))
       .finally(() => setCarregando(false));
   }
 
@@ -39,156 +38,101 @@ export default function Pontos() {
     carregar();
   }, []);
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    setErroForm("");
-    setSucesso("");
-    if (nmPonto.trim().length < 3 || bairro.trim().length < 2) {
-      setErroForm("Preencha ao menos o nome (3+ letras) e o bairro.");
-      return;
-    }
-    const novo: NovoPonto = { nmPonto, dsEndereco, bairro, tipo, coberto };
-    setSalvando(true);
-    try {
-      await criarPonto(novo);
-      setSucesso("Ponto cadastrado com sucesso!");
-      setNmPonto("");
-      setDsEndereco("");
-      setBairro("");
-      setTipo("banco");
-      setCoberto(false);
-      carregar();
-    } catch {
-      setErroForm("Falha ao cadastrar o ponto. Tente novamente.");
-    } finally {
-      setSalvando(false);
-    }
+  const filtrados = useMemo(() => {
+    const q = busca.trim().toLowerCase();
+    return pontos
+      .filter((p) => tipo === "todos" || p.tipo === tipo)
+      .filter((p) => {
+        if (!q) return true;
+        return (
+          p.nmPonto.toLowerCase().includes(q) ||
+          p.bairro.toLowerCase().includes(q) ||
+          p.dsEndereco.toLowerCase().includes(q)
+        );
+      })
+      .sort((a, b) =>
+        ordenacao === "nota" ? b.notaMedia - a.notaMedia : a.nmPonto.localeCompare(b.nmPonto)
+      );
+  }, [pontos, busca, tipo, ordenacao]);
+
+  function irParaCadastro() {
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  const inputClasse =
-    "rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-folego-500 focus:outline-none focus:ring-2 focus:ring-folego-500/40";
-
   return (
-    <div className="space-y-10">
-      <header>
-        <h1 className="text-3xl font-bold text-folego-900">Pontos de descanso</h1>
-        <p className="mt-2 text-slate-600">
-          Veja os pontos cadastrados pela comunidade e adicione os que você conhece.
-        </p>
-      </header>
-
-      {/* Lista (GET) */}
-      <section>
-        {carregando && <Loading texto="Carregando pontos..." />}
-        {!carregando && erro && <ErrorMessage texto={erro} />}
-        {!carregando && !erro && pontos.length === 0 && (
-          <p className="text-slate-500">Nenhum ponto cadastrado ainda.</p>
-        )}
-        {!carregando && !erro && pontos.length > 0 && (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {pontos.map((p) => (
-              <Card key={p.cdPonto}>
-                <div className="flex items-start justify-between gap-2">
-                  <h2 className="font-semibold text-slate-800">{p.nmPonto}</h2>
-                  <TipoBadge tipo={p.tipo} />
-                </div>
-                <p className="mt-1 text-sm text-slate-500">{p.bairro}</p>
-                <p className="mt-2 text-sm text-slate-600">{p.dsEndereco}</p>
-                <div className="mt-3 flex items-center justify-between">
-                  <span className="text-sm text-amber-600">
-                    ★ {p.notaMedia.toFixed(1)}
-                  </span>
-                  <Link
-                    to={`/ponto/${p.cdPonto}`}
-                    className="text-sm font-medium text-folego-600 hover:underline"
-                  >
-                    Detalhes →
-                  </Link>
-                </div>
-              </Card>
-            ))}
+    <div className="py-10 sm:py-14">
+      <PageContainer>
+        {/* Cabeçalho */}
+        <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-folego-500">
+              Pontos de descanso
+            </p>
+            <h1 className="mt-3 text-3xl font-extrabold text-folego-700 sm:text-4xl">
+              Encontre seu próximo ponto de descanso.
+            </h1>
+            <p className="mt-3 text-grafite/80">
+              Explore os locais cadastrados pela comunidade e descubra onde fazer uma pausa.
+            </p>
           </div>
-        )}
-      </section>
+          <img
+            src="/images/00_Identidade_Visual/emblema.png"
+            alt=""
+            aria-hidden
+            className="hidden h-24 w-auto object-contain opacity-90 md:block"
+          />
+        </Reveal>
 
-      {/* Formulário (POST) */}
-      <section className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-xl font-bold text-folego-900">Cadastrar novo ponto</h2>
+        {/* Filtros */}
+        <div className="mt-8">
+          <PontoFilters
+            busca={busca}
+            onBusca={setBusca}
+            tipo={tipo}
+            onTipo={setTipo}
+            ordenacao={ordenacao}
+            onOrdenacao={setOrdenacao}
+            onCadastrar={irParaCadastro}
+          />
+        </div>
 
-        {erroForm && (
-          <div className="mt-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-2 text-sm text-rose-700">
-            {erroForm}
-          </div>
-        )}
-        {sucesso && (
-          <div className="mt-4 rounded-lg border border-folego-100 bg-folego-50 px-4 py-2 text-sm text-folego-800">
-            {sucesso}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2" noValidate>
-          <FormField label="Nome do ponto" htmlFor="nmPonto">
-            <input
-              id="nmPonto"
-              value={nmPonto}
-              onChange={(e) => setNmPonto(e.target.value)}
-              className={inputClasse}
-              placeholder="Ex.: Banco da praça"
+        {/* Lista */}
+        <div className="mt-8">
+          {carregando && <Loading texto="Carregando pontos..." />}
+          {!carregando && erro && <ErrorMessage texto={erro} />}
+          {!carregando && !erro && filtrados.length === 0 && (
+            <EmptyState
+              titulo={pontos.length === 0 ? "Nenhum ponto cadastrado ainda" : "Nenhum resultado"}
+              descricao={
+                pontos.length === 0
+                  ? "Seja a primeira pessoa a cadastrar um ponto de descanso."
+                  : "Ajuste a busca ou os filtros para encontrar o que procura."
+              }
+              acao={<Button onClick={irParaCadastro}>Cadastrar ponto</Button>}
             />
-          </FormField>
+          )}
+          {!carregando && !erro && filtrados.length > 0 && (
+            <>
+              <p className="mb-4 text-sm text-grafite/60">
+                {filtrados.length}{" "}
+                {filtrados.length === 1 ? "ponto encontrado" : "pontos encontrados"}
+              </p>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {filtrados.map((p, i) => (
+                  <Reveal key={p.cdPonto} delay={(i % 3) * 80}>
+                    <PontoCard ponto={p} />
+                  </Reveal>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
 
-          <FormField label="Bairro" htmlFor="bairro">
-            <input
-              id="bairro"
-              value={bairro}
-              onChange={(e) => setBairro(e.target.value)}
-              className={inputClasse}
-              placeholder="Ex.: Centro"
-            />
-          </FormField>
-
-          <FormField label="Endereço" htmlFor="dsEndereco">
-            <input
-              id="dsEndereco"
-              value={dsEndereco}
-              onChange={(e) => setDsEndereco(e.target.value)}
-              className={inputClasse}
-              placeholder="Rua, número"
-            />
-          </FormField>
-
-          <FormField label="Tipo" htmlFor="tipo">
-            <select
-              id="tipo"
-              value={tipo}
-              onChange={(e) => setTipo(e.target.value as TipoPonto)}
-              className={inputClasse}
-            >
-              {tipos.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
-          </FormField>
-
-          <label className="flex items-center gap-2 text-sm text-slate-700">
-            <input
-              type="checkbox"
-              checked={coberto}
-              onChange={(e) => setCoberto(e.target.checked)}
-              className="h-4 w-4"
-            />
-            É coberto (protege do sol/chuva)
-          </label>
-
-          <div className="sm:col-span-2">
-            <Button type="submit" disabled={salvando}>
-              {salvando ? "Salvando..." : "Cadastrar ponto"}
-            </Button>
-          </div>
-        </form>
-      </section>
+        {/* Cadastro */}
+        <div className="mt-14 scroll-mt-24">
+          <PontoForm ref={formRef} onCreated={carregar} />
+        </div>
+      </PageContainer>
     </div>
   );
 }

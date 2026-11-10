@@ -1,15 +1,16 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getPonto, getAvaliacoes, avaliarPonto } from "../services/api";
+import { ArrowLeft, Star, Umbrella, MapPin, CheckCircle2 } from "lucide-react";
+import PageContainer from "../components/layout/PageContainer";
+import Loading from "../components/ui/Loading";
+import ErrorMessage from "../components/ui/ErrorMessage";
+import Button from "../components/ui/Button";
+import Badge from "../components/ui/Badge";
+import FormField, { inputClasses } from "../components/ui/FormField";
+import { getPonto, getAvaliacoes, avaliarPonto } from "../services/pontoService";
+import { tipoInfo } from "../lib/pontos";
 import type { PontoDescanso, Avaliacao } from "../types/ponto";
-import Card from "../components/Card";
-import Button from "../components/Button";
-import FormField from "../components/FormField";
-import Loading from "../components/Loading";
-import ErrorMessage from "../components/ErrorMessage";
-import TipoBadge from "../components/TipoBadge";
 
-// Rota dinâmica: /ponto/:id
 export default function PontoDetalhe() {
   const { id } = useParams<{ id: string }>();
   const pontoId = Number(id);
@@ -19,15 +20,16 @@ export default function PontoDetalhe() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 
-  // Formulário de avaliação (POST)
   const [nota, setNota] = useState("5");
   const [comentario, setComentario] = useState("");
   const [erroForm, setErroForm] = useState("");
-  const [sucesso, setSucesso] = useState("");
+  const [sucesso, setSucesso] = useState(false);
   const [enviando, setEnviando] = useState(false);
 
   function carregarAvaliacoes() {
-    getAvaliacoes(pontoId).then(setAvaliacoes).catch(() => setAvaliacoes([]));
+    getAvaliacoes(pontoId)
+      .then(setAvaliacoes)
+      .catch(() => setAvaliacoes([]));
   }
 
   useEffect(() => {
@@ -46,130 +48,168 @@ export default function PontoDetalhe() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setErroForm("");
-    setSucesso("");
+    setSucesso(false);
     const n = Number(nota);
     if (n < 1 || n > 5) {
-      setErroForm("A nota deve ser de 1 a 5.");
+      setErroForm("Escolha uma nota de 1 a 5.");
       return;
     }
     setEnviando(true);
     try {
       await avaliarPonto(pontoId, { nrNota: n, dsComentario: comentario });
-      setSucesso("Avaliação enviada com sucesso!");
+      setSucesso(true);
       setComentario("");
       setNota("5");
       carregarAvaliacoes();
     } catch {
-      setErroForm("Falha ao enviar a avaliação.");
+      setErroForm("Não foi possível enviar a avaliação.");
     } finally {
       setEnviando(false);
     }
   }
 
-  const inputClasse =
-    "rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-folego-500 focus:outline-none focus:ring-2 focus:ring-folego-500/40";
-
-  if (carregando) return <Loading texto="Carregando ponto..." />;
-  if (erro || !ponto)
+  if (carregando) {
     return (
-      <div className="space-y-4">
-        <ErrorMessage texto={erro || "Ponto não encontrado."} />
-        <Link to="/pontos" className="text-folego-600 hover:underline">
-          ← Voltar para a lista
-        </Link>
-      </div>
+      <PageContainer className="py-16">
+        <Loading texto="Carregando ponto..." />
+      </PageContainer>
     );
+  }
+
+  if (erro || !ponto) {
+    return (
+      <PageContainer className="py-16">
+        <ErrorMessage texto={erro || "Ponto não encontrado."} />
+        <Link
+          to="/pontos"
+          className="mt-6 inline-flex items-center gap-2 font-bold text-folego-600 hover:text-folego-700"
+        >
+          <ArrowLeft className="h-4 w-4" /> Voltar para a lista
+        </Link>
+      </PageContainer>
+    );
+  }
+
+  const info = tipoInfo[ponto.tipo];
 
   return (
-    <div className="mx-auto max-w-2xl space-y-8">
-      <Link to="/pontos" className="text-sm text-folego-600 hover:underline">
-        ← Voltar para a lista
-      </Link>
+    <div className="py-10 sm:py-14">
+      <PageContainer size="narrow">
+        <Link
+          to="/pontos"
+          className="inline-flex items-center gap-2 text-sm font-bold text-folego-600 hover:text-folego-700"
+        >
+          <ArrowLeft className="h-4 w-4" /> Voltar para os pontos
+        </Link>
 
-      <Card>
-        <div className="flex items-start justify-between gap-2">
-          <h1 className="text-2xl font-bold text-slate-800">{ponto.nmPonto}</h1>
-          <TipoBadge tipo={ponto.tipo} />
-        </div>
-        <p className="mt-1 text-slate-500">{ponto.bairro}</p>
-        <p className="mt-2 text-slate-600">{ponto.dsEndereco}</p>
-        <div className="mt-3 flex gap-4 text-sm text-slate-600">
-          <span className="text-amber-600">★ {ponto.notaMedia.toFixed(1)}</span>
-          <span>{ponto.coberto ? "Coberto" : "Sem cobertura"}</span>
-        </div>
-      </Card>
-
-      {/* Avaliações (GET) */}
-      <section>
-        <h2 className="text-xl font-bold text-folego-900">Avaliações</h2>
-        {avaliacoes.length === 0 ? (
-          <p className="mt-2 text-sm text-slate-500">
-            Ainda não há avaliações. Seja o primeiro a avaliar.
-          </p>
-        ) : (
-          <ul className="mt-3 space-y-3">
-            {avaliacoes.map((a) => (
-              <li
-                key={a.cdAvaliacao}
-                className="rounded-lg border border-slate-200 bg-white px-4 py-3"
-              >
-                <span className="text-amber-600">{"★".repeat(a.nrNota)}</span>
-                {a.dsComentario && (
-                  <p className="mt-1 text-sm text-slate-600">{a.dsComentario}</p>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-
-      {/* Avaliar (POST) */}
-      <section className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-xl font-bold text-folego-900">Avaliar este ponto</h2>
-
-        {erroForm && (
-          <div className="mt-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-2 text-sm text-rose-700">
-            {erroForm}
-          </div>
-        )}
-        {sucesso && (
-          <div className="mt-4 rounded-lg border border-folego-100 bg-folego-50 px-4 py-2 text-sm text-folego-800">
-            {sucesso}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="mt-4 space-y-4" noValidate>
-          <FormField label="Nota (1 a 5)" htmlFor="nota">
-            <select
-              id="nota"
-              value={nota}
-              onChange={(e) => setNota(e.target.value)}
-              className={inputClasse}
-            >
-              {[5, 4, 3, 2, 1].map((n) => (
-                <option key={n} value={n}>
-                  {n} {"★".repeat(n)}
-                </option>
-              ))}
-            </select>
-          </FormField>
-
-          <FormField label="Comentário (opcional)" htmlFor="comentario">
-            <textarea
-              id="comentario"
-              value={comentario}
-              onChange={(e) => setComentario(e.target.value)}
-              rows={3}
-              className={inputClasse}
-              placeholder="Como foi descansar aqui?"
+        {/* Cabeçalho do ponto */}
+        <div className="mt-5 overflow-hidden rounded-3xl border border-folego-100 bg-white shadow-card">
+          <div className="h-52 overflow-hidden bg-areia/40 sm:h-64">
+            <img
+              src={info.imagem}
+              alt={`Ilustração representando um ponto do tipo ${info.label.toLowerCase()}`}
+              className="h-full w-full object-cover"
             />
-          </FormField>
+          </div>
+          <div className="p-6 sm:p-8">
+            <Badge>
+              <info.Icon className="h-3.5 w-3.5" aria-hidden />
+              {info.label}
+            </Badge>
+            <h1 className="mt-3 text-3xl font-extrabold text-folego-700">{ponto.nmPonto}</h1>
+            <p className="mt-2 flex items-center gap-1.5 text-grafite/70">
+              <MapPin className="h-4 w-4 text-folego-500" aria-hidden />
+              {ponto.bairro}
+              {ponto.dsEndereco ? ` · ${ponto.dsEndereco}` : ""}
+            </p>
+            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm">
+              {ponto.notaMedia > 0 && (
+                <span className="inline-flex items-center gap-1 font-bold text-amber-600">
+                  <Star className="h-4 w-4 fill-amber-500 text-amber-500" aria-hidden />
+                  {ponto.notaMedia.toFixed(1)}
+                </span>
+              )}
+              <span className="inline-flex items-center gap-1 text-folego-600">
+                <Umbrella className="h-4 w-4" aria-hidden />
+                {ponto.coberto ? "Coberto" : "Sem cobertura"}
+              </span>
+            </div>
+          </div>
+        </div>
 
-          <Button type="submit" disabled={enviando}>
-            {enviando ? "Enviando..." : "Enviar avaliação"}
-          </Button>
-        </form>
-      </section>
+        {/* Avaliações */}
+        <section className="mt-10">
+          <h2 className="text-xl font-extrabold text-folego-700">Avaliações</h2>
+          {avaliacoes.length === 0 ? (
+            <p className="mt-2 text-sm text-grafite/60">
+              Ainda não há avaliações. Seja a primeira pessoa a avaliar este ponto.
+            </p>
+          ) : (
+            <ul className="mt-4 space-y-3">
+              {avaliacoes.map((a) => (
+                <li key={a.cdAvaliacao} className="rounded-2xl border border-folego-100 bg-white p-4">
+                  <span className="text-amber-500" aria-label={`Nota ${a.nrNota} de 5`}>
+                    {"★".repeat(a.nrNota)}
+                    <span className="text-amber-500/30">{"★".repeat(5 - a.nrNota)}</span>
+                  </span>
+                  {a.dsComentario && (
+                    <p className="mt-1.5 text-sm text-grafite/80">{a.dsComentario}</p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        {/* Formulário de avaliação */}
+        <section className="mt-8 rounded-3xl border border-folego-100 bg-white p-6 shadow-card sm:p-8">
+          <h2 className="text-xl font-extrabold text-folego-700">Avaliar este ponto</h2>
+
+          {sucesso && (
+            <div className="mt-4 flex items-start gap-2 rounded-xl border border-folego-100 bg-folego-50 px-4 py-3 text-sm font-medium text-folego-700">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+              Avaliação enviada com sucesso!
+            </div>
+          )}
+          {erroForm && (
+            <div className="mt-4">
+              <ErrorMessage texto={erroForm} />
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} noValidate className="mt-5 space-y-4">
+            <FormField label="Nota" htmlFor="nota" required>
+              <select
+                id="nota"
+                value={nota}
+                onChange={(e) => setNota(e.target.value)}
+                className={inputClasses}
+              >
+                {[5, 4, 3, 2, 1].map((n) => (
+                  <option key={n} value={n}>
+                    {n} — {"★".repeat(n)}
+                  </option>
+                ))}
+              </select>
+            </FormField>
+
+            <FormField label="Comentário" htmlFor="comentario" hint="Opcional">
+              <textarea
+                id="comentario"
+                value={comentario}
+                onChange={(e) => setComentario(e.target.value)}
+                rows={3}
+                className={inputClasses}
+                placeholder="Como foi descansar aqui?"
+              />
+            </FormField>
+
+            <Button type="submit" disabled={enviando}>
+              {enviando ? "Enviando..." : "Enviar avaliação"}
+            </Button>
+          </form>
+        </section>
+      </PageContainer>
     </div>
   );
 }

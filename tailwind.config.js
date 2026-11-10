@@ -25,6 +25,28 @@ export default {
       fontFamily: {
         sans: ["Nunito", "Segoe UI", "system-ui", "Arial", "sans-serif"],
       },
+      borderRadius: {
+        xl2: "1.25rem",
+        "3xl": "1.75rem",
+      },
+      boxShadow: {
+        soft: "0 10px 30px -12px rgba(15, 91, 79, 0.18)",
+        card: "0 4px 20px -8px rgba(15, 91, 79, 0.15)",
+      },
+      keyframes: {
+        "fade-up": {
+          "0%": { opacity: "0", transform: "translateY(16px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        float: {
+          "0%,100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+      },
+      animation: {
+        "fade-up": "fade-up 0.6s ease both",
+        float: "float 6s ease-in-out infinite",
+      },
     },
   },
   plugins: [],
