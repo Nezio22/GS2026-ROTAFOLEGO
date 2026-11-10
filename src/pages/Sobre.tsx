@@ -1,7 +1,6 @@
 import { BookOpen, Target, Lightbulb, Users, BarChart3 } from "lucide-react";
 import PageContainer from "../components/layout/PageContainer";
 import Reveal from "../components/ui/Reveal";
-import Folha from "../components/ui/Folha";
 
 const cards = [
   {
@@ -38,10 +37,6 @@ export default function Sobre() {
         alt=""
         aria-hidden
         className="pointer-events-none absolute -left-16 top-20 hidden w-64 opacity-10 lg:block"
-      />
-      <Folha
-        src="/images/09_Decorativos/canto-inf-esq.png"
-        className="bottom-0 left-0 hidden w-52 opacity-30 lg:block"
       />
 
       <PageContainer className="relative py-10 lg:py-16">

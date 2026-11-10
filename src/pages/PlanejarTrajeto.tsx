@@ -7,7 +7,6 @@ import TrajetoPointItem from "../components/trajeto/TrajetoPointItem";
 import TrajetoSummary from "../components/trajeto/TrajetoSummary";
 import { getPontos } from "../services/pontoService";
 import type { PontoDescanso } from "../types/ponto";
-import Folha from "../components/ui/Folha";
 
 export default function PlanejarTrajeto() {
   const [pontos, setPontos] = useState<PontoDescanso[]>([]);
@@ -69,11 +68,7 @@ export default function PlanejarTrajeto() {
   }
 
   return (
-    <div className="relative overflow-hidden py-10 sm:py-14">
-      <Folha
-        src="/images/09_Decorativos/galho-vertical.png"
-        className="right-0 top-28 hidden w-20 opacity-25 lg:block"
-      />
+    <div className="py-10 sm:py-14">
       <PageContainer>
         <Reveal className="max-w-2xl">
           <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-folego-500">
