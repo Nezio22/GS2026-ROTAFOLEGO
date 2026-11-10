@@ -5,9 +5,11 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
   body {
     @apply bg-offwhite text-grafite font-sans antialiased;
+    overflow-x: hidden;
   }
   h1,
   h2,

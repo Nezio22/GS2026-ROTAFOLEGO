@@ -46,24 +46,10 @@ export default function Contato() {
         src="/images/00_Identidade_Visual/padrao_organico.png"
         alt=""
         aria-hidden
-        className="pointer-events-none absolute -left-16 bottom-10 w-64 opacity-10"
+        className="pointer-events-none absolute -left-16 bottom-10 hidden w-64 opacity-10 lg:block"
       />
 
-      {/* Ilustração — altura cheia à direita */}
-      <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-[40%]">
-        <img
-          src="/images/07_Contato/parque_banco_poste.png"
-          alt="Ilustração de um parque com banco e poste de iluminação"
-          loading="lazy"
-          className="h-56 w-full object-cover sm:h-80 lg:h-full"
-        />
-        <div
-          className="absolute inset-y-0 left-0 hidden w-32 bg-gradient-to-r from-offwhite to-transparent lg:block"
-          aria-hidden
-        />
-      </div>
-
-      <PageContainer className="relative py-12 lg:py-16">
+      <PageContainer className="relative py-10 lg:py-16">
         <div className="lg:max-w-[55%]">
           <Reveal>
             <div className="flex items-center gap-2 text-folego-700">
@@ -131,6 +117,20 @@ export default function Contato() {
           </Reveal>
         </div>
       </PageContainer>
+
+      {/* Ilustração — bloco no celular, altura cheia à direita no desktop */}
+      <div className="px-4 pb-10 lg:absolute lg:inset-y-0 lg:right-0 lg:w-[40%] lg:px-0 lg:pb-0">
+        <img
+          src="/images/07_Contato/parque_banco_poste.png"
+          alt="Ilustração de um parque com banco e poste de iluminação"
+          loading="lazy"
+          className="h-56 w-full rounded-3xl object-cover sm:h-72 lg:h-full lg:rounded-none"
+        />
+        <div
+          className="absolute inset-y-0 left-0 hidden w-32 bg-gradient-to-r from-offwhite to-transparent lg:block"
+          aria-hidden
+        />
+      </div>
     </section>
   );
 }

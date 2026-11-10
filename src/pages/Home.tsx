@@ -30,42 +30,29 @@ const ods = [
 export default function Home() {
   return (
     <div>
-      {/* HERO com imagem full-bleed à direita */}
+      {/* HERO — texto primeiro no celular; imagem full-bleed à direita no desktop */}
       <section className="relative overflow-hidden">
         <img
           src="/images/00_Identidade_Visual/padrao_organico.png"
           alt=""
           aria-hidden
-          className="pointer-events-none absolute -left-16 -top-10 w-72 opacity-10"
+          className="pointer-events-none absolute -left-16 -top-10 hidden w-72 opacity-10 lg:block"
         />
 
-        {/* Imagem: estática no mobile, absoluta à direita no desktop */}
-        <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-[48%]">
-          <img
-            src="/images/01_Home/hero_casal_caminhada.png"
-            alt="Casal de idosos caminhando com tranquilidade por um parque arborizado"
-            className="h-64 w-full object-cover sm:h-80 lg:h-full"
-          />
-          <div
-            className="absolute inset-y-0 left-0 hidden w-40 bg-gradient-to-r from-offwhite to-transparent lg:block"
-            aria-hidden
-          />
-        </div>
-
-        <PageContainer className="relative py-12 lg:py-24">
+        <PageContainer className="relative py-10 lg:py-24">
           <Reveal className="lg:max-w-[52%]">
             <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-folego-500">
               CitizenTech · Global Solution 2026/2
             </p>
-            <h1 className="mt-4 text-4xl font-extrabold leading-tight text-folego-700 sm:text-5xl">
+            <h1 className="mt-4 text-3xl font-extrabold leading-tight text-folego-700 sm:text-4xl lg:text-5xl">
               Caminhe no seu ritmo, com um lugar para{" "}
               <span className="text-salvia">descansar</span>.
             </h1>
-            <p className="mt-5 max-w-xl text-lg text-grafite/80">
+            <p className="mt-5 max-w-xl text-base text-grafite/80 sm:text-lg">
               O Rota do Fôlego planeja o seu trajeto a pé priorizando pontos de descanso —
               pensado para idosos, gestantes e pessoas com mobilidade reduzida.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button to="/planejar" size="lg">
                 Planejar um trajeto
               </Button>
@@ -75,6 +62,19 @@ export default function Home() {
             </div>
           </Reveal>
         </PageContainer>
+
+        {/* Imagem: bloco após o texto no celular, absoluta à direita no desktop */}
+        <div className="px-4 pb-10 lg:absolute lg:inset-y-0 lg:right-0 lg:w-[48%] lg:px-0 lg:pb-0">
+          <img
+            src="/images/01_Home/hero_casal_caminhada.png"
+            alt="Casal de idosos caminhando com tranquilidade por um parque arborizado"
+            className="h-56 w-full rounded-3xl object-cover sm:h-72 lg:h-full lg:rounded-none"
+          />
+          <div
+            className="absolute inset-y-0 left-0 hidden w-40 bg-gradient-to-r from-offwhite to-transparent lg:block"
+            aria-hidden
+          />
+        </div>
       </section>
 
       {/* 3 CARDS horizontais */}

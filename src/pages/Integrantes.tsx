@@ -11,7 +11,7 @@ export default function Integrantes() {
         src="/images/00_Identidade_Visual/padrao_organico.png"
         alt=""
         aria-hidden
-        className="pointer-events-none absolute -right-16 top-10 w-72 opacity-10"
+        className="pointer-events-none absolute -right-16 top-10 hidden w-72 opacity-10 lg:block"
       />
       <PageContainer className="relative">
         <Reveal className="max-w-2xl">

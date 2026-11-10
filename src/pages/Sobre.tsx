@@ -36,23 +36,10 @@ export default function Sobre() {
         src="/images/00_Identidade_Visual/padrao_organico.png"
         alt=""
         aria-hidden
-        className="pointer-events-none absolute -left-16 top-20 w-64 opacity-10"
+        className="pointer-events-none absolute -left-16 top-20 hidden w-64 opacity-10 lg:block"
       />
 
-      {/* Imagem do idoso — altura cheia à direita no desktop */}
-      <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-[38%]">
-        <img
-          src="/images/04_Sobre/idoso_descansando_banco.png"
-          alt="Pessoa idosa descansando tranquilamente em um banco de praça"
-          className="h-64 w-full object-cover sm:h-96 lg:h-full"
-        />
-        <div
-          className="absolute inset-y-0 left-0 hidden w-32 bg-gradient-to-r from-offwhite to-transparent lg:block"
-          aria-hidden
-        />
-      </div>
-
-      <PageContainer className="relative py-12 lg:py-16">
+      <PageContainer className="relative py-10 lg:py-16">
         <div className="lg:max-w-[58%]">
           <Reveal>
             <div className="flex items-center gap-2 text-folego-700">
@@ -80,6 +67,19 @@ export default function Sobre() {
           </div>
         </div>
       </PageContainer>
+
+      {/* Imagem do idoso — bloco no celular, altura cheia à direita no desktop */}
+      <div className="px-4 pb-10 lg:absolute lg:inset-y-0 lg:right-0 lg:w-[38%] lg:px-0 lg:pb-0">
+        <img
+          src="/images/04_Sobre/idoso_descansando_banco.png"
+          alt="Pessoa idosa descansando tranquilamente em um banco de praça"
+          className="h-60 w-full rounded-3xl object-cover object-top sm:h-80 lg:h-full lg:rounded-none"
+        />
+        <div
+          className="absolute inset-y-0 left-0 hidden w-32 bg-gradient-to-r from-offwhite to-transparent lg:block"
+          aria-hidden
+        />
+      </div>
     </section>
   );
 }
