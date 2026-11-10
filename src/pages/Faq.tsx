@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Plus, Minus, HelpCircle, ArrowRight } from "lucide-react";
 import PageContainer from "../components/layout/PageContainer";
 import Reveal from "../components/ui/Reveal";
+import Folha from "../components/ui/Folha";
 import Button from "../components/ui/Button";
 
 const perguntas = [
@@ -31,7 +32,11 @@ export default function Faq() {
   const [aberta, setAberta] = useState<number | null>(0);
 
   return (
-    <div className="py-10 sm:py-14">
+    <div className="relative overflow-hidden py-10 sm:py-14">
+      <Folha
+        src="/images/09_Decorativos/canto-inf-esq.png"
+        className="bottom-0 left-0 hidden w-52 opacity-25 lg:block"
+      />
       <PageContainer>
         {/* Cabeçalho */}
         <Reveal className="max-w-2xl">

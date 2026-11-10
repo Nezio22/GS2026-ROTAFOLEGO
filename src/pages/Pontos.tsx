@@ -10,6 +10,7 @@ import PontoFilters, { type FiltroTipo } from "../components/pontos/PontoFilters
 import PontoForm from "../components/pontos/PontoForm";
 import { getPontos } from "../services/pontoService";
 import type { PontoDescanso } from "../types/ponto";
+import Folha from "../components/ui/Folha";
 
 export default function Pontos() {
   const [pontos, setPontos] = useState<PontoDescanso[]>([]);
@@ -54,7 +55,11 @@ export default function Pontos() {
   }
 
   return (
-    <div className="py-10 sm:py-14">
+    <div className="relative overflow-hidden py-10 sm:py-14">
+      <Folha
+        src="/images/09_Decorativos/canto-sup-dir.png"
+        className="right-0 top-0 hidden w-56 opacity-20 lg:block"
+      />
       <PageContainer>
         {/* Cabeçalho */}
         <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">

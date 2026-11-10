@@ -4,6 +4,7 @@ import PageContainer from "../components/layout/PageContainer";
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
 import { integrantes } from "../data/integrantes";
+import Folha from "../components/ui/Folha";
 
 // Rota dinâmica preservada: /integrante/:rm (o valor usado é o slug do integrante)
 export default function IntegranteDetalhe() {
@@ -25,7 +26,11 @@ export default function IntegranteDetalhe() {
   }
 
   return (
-    <div className="py-10 sm:py-14">
+    <div className="relative overflow-hidden py-10 sm:py-14">
+      <Folha
+        src="/images/09_Decorativos/folhas-vento.png"
+        className="right-0 top-10 hidden w-56 opacity-20 lg:block"
+      />
       <PageContainer size="narrow">
         <Link
           to="/integrantes"

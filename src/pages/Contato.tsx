@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { Mail, Info, Send } from "lucide-react";
 import PageContainer from "../components/layout/PageContainer";
 import Reveal from "../components/ui/Reveal";
+import Folha from "../components/ui/Folha";
 import Button from "../components/ui/Button";
 import FormField, { inputClasses } from "../components/ui/FormField";
 
@@ -47,6 +48,10 @@ export default function Contato() {
         alt=""
         aria-hidden
         className="pointer-events-none absolute -left-16 bottom-10 hidden w-64 opacity-10 lg:block"
+      />
+      <Folha
+        src="/images/09_Decorativos/rodape-direita.png"
+        className="bottom-0 right-0 hidden w-72 opacity-25 lg:block"
       />
 
       <PageContainer className="relative py-10 lg:py-16">

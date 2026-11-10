@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Github, Users } from "lucide-react";
 import PageContainer from "../components/layout/PageContainer";
 import Reveal from "../components/ui/Reveal";
+import Folha from "../components/ui/Folha";
 import { integrantes } from "../data/integrantes";
 
 export default function Integrantes() {
@@ -12,6 +13,10 @@ export default function Integrantes() {
         alt=""
         aria-hidden
         className="pointer-events-none absolute -right-16 top-10 hidden w-72 opacity-10 lg:block"
+      />
+      <Folha
+        src="/images/09_Decorativos/canto-sup-esq.png"
+        className="left-0 top-0 hidden w-52 opacity-30 lg:block"
       />
       <PageContainer className="relative">
         <Reveal className="max-w-2xl">

@@ -77,6 +77,17 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Divisor decorativo: linha de rota com ponto de parada */}
+      <div aria-hidden className="mx-auto w-full max-w-4xl px-6 pt-10 opacity-70">
+        <img
+          src="/images/09_Decorativos/divisor-rota.png"
+          alt=""
+          loading="lazy"
+          draggable={false}
+          className="h-auto w-full select-none"
+        />
+      </div>
+
       {/* 3 CARDS horizontais */}
       <section className="py-14">
         <PageContainer>
