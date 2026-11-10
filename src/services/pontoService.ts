@@ -79,6 +79,7 @@ export async function criarPonto(dados: NovoPonto): Promise<PontoDescanso> {
       cdPonto: novoId,
       ...dados,
       notaMedia: 0,
+      qtdAvaliacoes: 0,
       latitude: 0,
       longitude: 0,
     };

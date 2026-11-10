@@ -34,9 +34,12 @@ export default function PontoCard({ ponto }: { ponto: PontoDescanso }) {
 
         <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
           {ponto.notaMedia > 0 && (
-            <span className="inline-flex items-center gap-1 font-bold text-amber-600">
+            <span className="inline-flex items-center gap-1 text-grafite/70">
               <Star className="h-4 w-4 fill-amber-500 text-amber-500" aria-hidden />
-              {ponto.notaMedia.toFixed(1)}
+              <span className="font-bold text-amber-600">{ponto.notaMedia.toFixed(1)}</span>
+              {typeof ponto.qtdAvaliacoes === "number" && ponto.qtdAvaliacoes > 0 && (
+                <span className="text-grafite/60">· {ponto.qtdAvaliacoes} avaliações</span>
+              )}
             </span>
           )}
           {ponto.coberto && (

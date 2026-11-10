@@ -11,6 +11,7 @@ export interface PontoDescanso {
   tipo: TipoPonto;
   coberto: boolean;
   notaMedia: number;
+  qtdAvaliacoes?: number;
   latitude: number;
   longitude: number;
 }
