@@ -86,6 +86,15 @@ As funções com Fetch já estão escritas — nada mais precisa mudar nas pági
 | `/ponto/:id` | Detalhe + avaliações (rota dinâmica, GET + POST) |
 | `/planejar` | Planejar trajeto |
 
+## Acessibilidade e responsividade
+
+- **Responsivo** para celular, tablet e desktop (sem rolagem horizontal).
+- **Navegação por teclado** nos menus, no accordion do FAQ e no dropdown customizado.
+- `aria-*` nos componentes interativos (`aria-expanded`, `aria-pressed`, `aria-label`,
+  `role="alert"`), foco visível e `alt` descritivo nas imagens informativas.
+- Suporte a `prefers-reduced-motion` (desliga as animações de entrada).
+- Fonte **Nunito** e bom contraste, pensando no público idoso.
+
 ## Integrantes
 
 | Nome | Frente |
