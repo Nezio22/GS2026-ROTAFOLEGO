@@ -49,8 +49,8 @@ export default function Home() {
               <span className="text-salvia">descansar</span>.
             </h1>
             <p className="mt-5 max-w-xl text-base text-grafite/80 sm:text-lg">
-              O Rota do Fôlego planeja o seu trajeto a pé priorizando pontos de descanso —
-              pensado para idosos, gestantes e pessoas com mobilidade reduzida.
+              O Rota do Fôlego planeja o seu trajeto a pé priorizando pontos de descanso.
+              Pensado para idosos, gestantes e pessoas com mobilidade reduzida.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button to="/planejar" size="lg">

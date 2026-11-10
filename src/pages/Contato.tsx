@@ -63,8 +63,8 @@ export default function Contato() {
             <div className="mt-6 flex items-start gap-2 rounded-xl bg-folego-50 px-4 py-3 text-sm text-folego-700">
               <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
               <span>
-                Seus dados foram validados. O envio ainda não está conectado a um servidor —
-                esta interface está preparada para a integração futura, então nada foi enviado.
+                Seus dados foram validados. O envio ainda não está conectado a um servidor.
+                Esta interface está preparada para a integração futura, então nada foi enviado.
               </span>
             </div>
           )}

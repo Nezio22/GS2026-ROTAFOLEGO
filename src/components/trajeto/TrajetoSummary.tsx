@@ -17,7 +17,7 @@ export default function TrajetoSummary({ trajeto }: { trajeto: PontoDescanso[] }
     {
       Icon: PersonStanding,
       label: "Distância estimada (linha reta)",
-      valor: temGeo ? `${distanciaKm.toFixed(1).replace(".", ",")} km` : "—",
+      valor: temGeo ? `${distanciaKm.toFixed(1).replace(".", ",")} km` : "indisponível",
     },
     {
       Icon: Pause,
@@ -27,7 +27,7 @@ export default function TrajetoSummary({ trajeto }: { trajeto: PontoDescanso[] }
     {
       Icon: Clock,
       label: "Tempo estimado a pé",
-      valor: temGeo ? `${tempoMin} min (caminhada leve)` : "—",
+      valor: temGeo ? `${tempoMin} min (caminhada leve)` : "indisponível",
     },
   ];
 
@@ -91,7 +91,7 @@ export default function TrajetoSummary({ trajeto }: { trajeto: PontoDescanso[] }
           )}
 
           <p className="mt-3 text-center text-[11px] text-grafite/50">
-            Distância em linha reta — a rota real pode variar conforme as ruas.
+            Distância em linha reta. A rota real pode variar conforme as ruas.
           </p>
         </>
       )}

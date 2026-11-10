@@ -30,7 +30,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-30 border-b border-folego-100/70 bg-offwhite/85 backdrop-blur-md">
       <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
-        <Link to="/" aria-label="Rota do Fôlego — início" className="flex shrink-0 items-center">
+        <Link to="/" aria-label="Rota do Fôlego, página inicial" className="flex shrink-0 items-center">
           <img src="/logo-horizontal.png" alt="Rota do Fôlego" className="h-11 w-auto" />
         </Link>
 

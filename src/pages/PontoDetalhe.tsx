@@ -186,7 +186,7 @@ export default function PontoDetalhe() {
                 ariaLabel="Nota de 1 a 5"
                 options={[5, 4, 3, 2, 1].map((n) => ({
                   value: String(n),
-                  label: `${n} — ${"★".repeat(n)}`,
+                  label: `${n}  ${"★".repeat(n)}`,
                 }))}
               />
             </FormField>

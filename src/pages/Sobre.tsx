@@ -13,13 +13,13 @@ const cards = [
     Icon: Lightbulb,
     titulo: "A solução",
     texto:
-      "Um app colaborativo que registra pontos de descanso e monta trajetos a pé priorizando onde parar — construído pela própria comunidade.",
+      "Um app colaborativo que registra pontos de descanso e monta trajetos a pé priorizando onde parar, construído pela própria comunidade.",
   },
   {
     Icon: Users,
     titulo: "Quem é beneficiado",
     texto:
-      "Moradores com mobilidade reduzida, em qualquer bairro — da metrópole à cidade pequena.",
+      "Moradores com mobilidade reduzida, em qualquer bairro, da metrópole à cidade pequena.",
   },
   {
     Icon: BarChart3,
