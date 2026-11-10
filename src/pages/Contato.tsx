@@ -121,8 +121,8 @@ export default function Contato() {
       {/* Ilustração — bloco no celular, altura cheia à direita no desktop */}
       <div className="px-4 pb-10 lg:absolute lg:inset-y-0 lg:right-0 lg:w-[40%] lg:px-0 lg:pb-0">
         <img
-          src="/images/07_Contato/parque_banco_poste.png"
-          alt="Ilustração de um parque com banco e poste de iluminação"
+          src="/images/08_Ilustracoes_Originais_Alta_Resolucao/ilustracao_pessoas_caminhada.png"
+          alt="Grupo diverso caminhando por um parque com os pontos de descanso ligados por uma rota"
           loading="lazy"
           className="h-56 w-full rounded-3xl object-cover sm:h-72 lg:h-full lg:rounded-none"
         />

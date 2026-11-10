@@ -71,9 +71,9 @@ export default function Sobre() {
       {/* Imagem do idoso — bloco no celular, altura cheia à direita no desktop */}
       <div className="px-4 pb-10 lg:absolute lg:inset-y-0 lg:right-0 lg:w-[38%] lg:px-0 lg:pb-0">
         <img
-          src="/images/04_Sobre/idoso_descansando_banco.png"
-          alt="Pessoa idosa descansando tranquilamente em um banco de praça"
-          className="h-60 w-full rounded-3xl object-cover object-top sm:h-80 lg:h-full lg:rounded-none"
+          src="/images/08_Ilustracoes_Originais_Alta_Resolucao/ilustracao_pontos_paradas.png"
+          alt="Grupo diverso caminhando por um parque com pontos de descanso e um abrigo coberto"
+          className="h-60 w-full rounded-3xl object-cover sm:h-80 lg:h-full lg:rounded-none"
         />
         <div
           className="absolute inset-y-0 left-0 hidden w-32 bg-gradient-to-r from-offwhite to-transparent lg:block"
