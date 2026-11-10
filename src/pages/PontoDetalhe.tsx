@@ -7,6 +7,7 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 import Button from "../components/ui/Button";
 import Badge from "../components/ui/Badge";
 import FormField, { inputClasses } from "../components/ui/FormField";
+import Select from "../components/ui/Select";
 import { getPonto, getAvaliacoes, avaliarPonto } from "../services/pontoService";
 import { tipoInfo } from "../lib/pontos";
 import type { PontoDescanso, Avaliacao } from "../types/ponto";
@@ -179,18 +180,15 @@ export default function PontoDetalhe() {
 
           <form onSubmit={handleSubmit} noValidate className="mt-5 space-y-4">
             <FormField label="Nota" htmlFor="nota" required>
-              <select
-                id="nota"
+              <Select
                 value={nota}
-                onChange={(e) => setNota(e.target.value)}
-                className={inputClasses}
-              >
-                {[5, 4, 3, 2, 1].map((n) => (
-                  <option key={n} value={n}>
-                    {n} — {"★".repeat(n)}
-                  </option>
-                ))}
-              </select>
+                onChange={setNota}
+                ariaLabel="Nota de 1 a 5"
+                options={[5, 4, 3, 2, 1].map((n) => ({
+                  value: String(n),
+                  label: `${n} — ${"★".repeat(n)}`,
+                }))}
+              />
             </FormField>
 
             <FormField label="Comentário" htmlFor="comentario" hint="Opcional">

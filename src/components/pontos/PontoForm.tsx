@@ -5,6 +5,7 @@ import { TIPOS, tipoInfo } from "../../lib/pontos";
 import { criarPonto } from "../../services/pontoService";
 import { USE_MOCK } from "../../services/api";
 import FormField, { inputClasses } from "../ui/FormField";
+import Select from "../ui/Select";
 import Button from "../ui/Button";
 import ErrorMessage from "../ui/ErrorMessage";
 
@@ -120,18 +121,12 @@ const PontoForm = forwardRef<HTMLDivElement, PontoFormProps>(function PontoForm(
         </FormField>
 
         <FormField label="Tipo de ponto" htmlFor="tipo">
-          <select
-            id="tipo"
+          <Select
             value={tipo}
-            onChange={(e) => setTipo(e.target.value as TipoPonto)}
-            className={inputClasses}
-          >
-            {TIPOS.map((t) => (
-              <option key={t} value={t}>
-                {tipoInfo[t].label}
-              </option>
-            ))}
-          </select>
+            onChange={(v) => setTipo(v as TipoPonto)}
+            ariaLabel="Tipo de ponto"
+            options={TIPOS.map((t) => ({ value: t, label: tipoInfo[t].label }))}
+          />
         </FormField>
 
         <label className="flex items-center gap-2.5 text-sm font-medium text-grafite sm:col-span-2">
