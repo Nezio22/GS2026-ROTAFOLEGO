@@ -112,4 +112,15 @@ As funções com Fetch já estão escritas — nada mais precisa mudar nas pági
 
 ## Uso de IA
 
-_Preencher: ferramentas usadas, para quê, e o que foi revisado pela equipe._
+Durante o desenvolvimento, a equipe utilizou ferramentas de IA (assistentes de código)
+como apoio para:
+
+- gerar e revisar trechos de código React / TypeScript / Tailwind;
+- sugerir a estrutura de componentes e a organização de pastas;
+- revisar acessibilidade e responsividade;
+- apoiar a escrita desta documentação.
+
+Todo o código gerado foi **lido, testado e ajustado pela equipe** antes de ser incorporado.
+As decisões de design, a identidade visual e as regras de negócio foram definidas pelos
+integrantes. Nenhum dado foi inventado: distância e tempo no trajeto são calculados a partir
+de coordenadas reais, e o formulário de contato informa que ainda não há envio a um servidor.
