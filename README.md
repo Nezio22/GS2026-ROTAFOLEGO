@@ -97,17 +97,17 @@ As funções com Fetch já estão escritas — nada mais precisa mudar nas pági
 
 ## Integrantes
 
-| Nome | Frente |
-|------|--------|
-| Matheus Nezio | Front-End |
-| Julia Almeida | Banco Oracle + API Java |
-| Alexandre Prazeres | IA + Python + Documentação |
+| Nome | RM | Frente | GitHub |
+|------|----|--------|--------|
+| Matheus Faria Nezio | 571702 | Front-End Design Engineering | https://github.com/Nezio22 |
+| Júlia Rodrigues de Oliveira Almeida | 571244 | Banco Oracle + API Java | https://github.com/juliaraalmeida77-ux |
+| Alexandre Prazeres dos Santos | 573059 | IA + Python + Software Engineering | https://github.com/U-Ale |
 
 ## Links
 
-- GitHub: _adicionar_
-- Vercel: _adicionar_
-- API (Render): _adicionar_
+- Repositório: https://github.com/Nezio22/GS2026-ROTAFOLEGO
+- Vercel: _adicionar após o deploy_
+- API (Render): _adicionar quando a API Java estiver no ar_
 - Vídeo (YouTube): _adicionar_
 
 ## Uso de IA
