@@ -30,6 +30,7 @@ export const integrantes: Integrante[] = [
       "Deploy da API no Render",
     ],
     avatar: "/images/05_Integrantes/avatar_ilustrativo_julia.png",
+    github: "https://github.com/juliaraalmeida77-ux",
   },
   {
     slug: "alexandre",
@@ -47,5 +48,6 @@ export const integrantes: Integrante[] = [
       "Documentação e modelo de negócio",
     ],
     avatar: "/images/05_Integrantes/avatar_ilustrativo_alexandre.png",
+    github: "https://github.com/U-Ale",
   },
 ];

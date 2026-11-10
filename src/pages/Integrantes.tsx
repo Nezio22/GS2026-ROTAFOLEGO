@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Linkedin, Users } from "lucide-react";
+import { ArrowRight, Github, Users } from "lucide-react";
 import PageContainer from "../components/layout/PageContainer";
 import Reveal from "../components/ui/Reveal";
 import { integrantes } from "../data/integrantes";
@@ -26,24 +26,17 @@ export default function Integrantes() {
           {integrantes.map((pessoa, i) => (
             <Reveal key={pessoa.slug} delay={i * 100}>
               <div className="relative flex h-full flex-col rounded-3xl border border-folego-100 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-soft">
-                {/* LinkedIn */}
-                {pessoa.linkedin ? (
+                {/* GitHub */}
+                {pessoa.github && (
                   <a
-                    href={pessoa.linkedin}
+                    href={pessoa.github}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label={`LinkedIn de ${pessoa.nome}`}
-                    className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-lg bg-[#0A66C2] text-white transition hover:opacity-90"
+                    aria-label={`GitHub de ${pessoa.nome}`}
+                    className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-lg bg-folego-900 text-white transition hover:opacity-90"
                   >
-                    <Linkedin className="h-4 w-4" aria-hidden />
+                    <Github className="h-4 w-4" aria-hidden />
                   </a>
-                ) : (
-                  <span
-                    title="LinkedIn em breve"
-                    className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-lg bg-slate-200 text-slate-400"
-                  >
-                    <Linkedin className="h-4 w-4" aria-hidden />
-                  </span>
                 )}
 
                 <div className="h-24 w-24 overflow-hidden rounded-full bg-areia/50 ring-4 ring-folego-50">
