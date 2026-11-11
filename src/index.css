@@ -25,6 +25,40 @@
   }
 }
 
+/* Modo alto contraste (acessibilidade) — ativado na barra de acessibilidade.
+   Escurece textos secundarios, reforca bordas e sublinha links. */
+.modo-contraste body {
+  background: #ffffff;
+  color: #141414;
+}
+.modo-contraste .bg-offwhite,
+.modo-contraste .bg-offwhite\/60,
+.modo-contraste .bg-offwhite\/80,
+.modo-contraste .bg-offwhite\/85 {
+  background-color: #ffffff !important;
+}
+.modo-contraste .text-grafite\/50,
+.modo-contraste .text-grafite\/60,
+.modo-contraste .text-grafite\/70,
+.modo-contraste .text-grafite\/80 {
+  color: #1a1a1a !important;
+}
+.modo-contraste .text-white\/70,
+.modo-contraste .text-white\/80 {
+  color: #ffffff !important;
+}
+.modo-contraste .border-folego-100,
+.modo-contraste .border-folego-100\/70 {
+  border-color: #0b463c !important;
+}
+.modo-contraste a:not([class*="bg-"]):not([class*="border-"]) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.modo-contraste :focus-visible {
+  outline-width: 3px;
+}
+
 /* Animação de entrada (revela ao entrar na viewport) */
 .reveal {
   opacity: 0;

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { AArrowDown, AArrowUp, RotateCcw } from "lucide-react";
+import { AArrowDown, AArrowUp, RotateCcw, Contrast } from "lucide-react";
 
 // Três níveis de fonte aplicados no <html> (rem escala o site inteiro).
 const ESCALAS = [100, 112, 125];
 const STORAGE_FONTE = "rotafolego:fonte";
+const STORAGE_CONTRASTE = "rotafolego:contraste";
 
 export default function AccessibilityBar() {
   const [nivel, setNivel] = useState(0);
+  const [contraste, setContraste] = useState(false);
 
   useEffect(() => {
     try {
@@ -14,6 +16,7 @@ export default function AccessibilityBar() {
       if (Number.isInteger(salvo) && salvo >= 0 && salvo < ESCALAS.length) {
         setNivel(salvo);
       }
+      setContraste(localStorage.getItem(STORAGE_CONTRASTE) === "1");
     } catch {
       /* ignora */
     }
@@ -27,6 +30,15 @@ export default function AccessibilityBar() {
       /* ignora */
     }
   }, [nivel]);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("modo-contraste", contraste);
+    try {
+      localStorage.setItem(STORAGE_CONTRASTE, contraste ? "1" : "0");
+    } catch {
+      /* ignora */
+    }
+  }, [contraste]);
 
   const btn =
     "flex h-8 w-8 items-center justify-center rounded-md text-folego-700 transition hover:bg-folego-100 disabled:opacity-40 disabled:hover:bg-transparent";
@@ -63,6 +75,22 @@ export default function AccessibilityBar() {
           className={btn}
         >
           <AArrowUp className="h-4 w-4" aria-hidden />
+        </button>
+
+        <span className="mx-1 h-4 w-px bg-folego-200" aria-hidden />
+
+        <button
+          type="button"
+          onClick={() => setContraste((c) => !c)}
+          aria-pressed={contraste}
+          className={`flex h-8 items-center gap-1.5 rounded-md px-2 text-xs font-bold transition ${
+            contraste
+              ? "bg-folego-700 text-white"
+              : "text-folego-700 hover:bg-folego-100"
+          }`}
+        >
+          <Contrast className="h-4 w-4" aria-hidden />
+          Alto contraste
         </button>
       </div>
     </div>
