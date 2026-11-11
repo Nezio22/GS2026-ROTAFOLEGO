@@ -23,7 +23,7 @@ export interface Avaliacao {
   dtAvaliacao: string;
 }
 
-// Dados que o formulário envia (POST) — sem o id, que o back-end gera.
+// Dados que o formulário envia (POST), sem o id, que o back-end gera.
 export interface NovoPonto {
   nmPonto: string;
   dsEndereco: string;

@@ -34,7 +34,7 @@ export default function Navbar() {
           <img src="/logo-horizontal.png" alt="Rota do Fôlego" className="h-11 w-auto" />
         </Link>
 
-        {/* Desktop — centralizada */}
+        {/* Desktop: centralizada */}
         <div className="hidden flex-1 items-center justify-center gap-1 lg:flex">
           {links.map((l) => (
             <NavLink key={l.to} to={l.to} end={l.end} className={classeLink}>

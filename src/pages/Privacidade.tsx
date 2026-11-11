@@ -36,7 +36,7 @@ export default function Privacidade() {
           </div>
           <p className="mt-2 text-grafite/80">
             Como o Rota do Fôlego trata os seus dados. Escrito em linguagem simples, em respeito à
-            Lei Geral de Proteção de Dados (LGPD – Lei nº 13.709/2018).
+            Lei Geral de Proteção de Dados (LGPD, a Lei nº 13.709/2018).
           </p>
           <p className="mt-1 text-xs font-bold uppercase tracking-wider text-folego-500">
             Atualizada em novembro de 2026
@@ -98,7 +98,7 @@ export default function Privacidade() {
             Cookies e armazenamento
           </h2>
           <p className="mt-3 text-sm text-grafite/80">
-            O Rota do Fôlego usa apenas armazenamento <strong>necessário para funcionar</strong> — a
+            O Rota do Fôlego usa apenas armazenamento <strong>necessário para funcionar</strong>: a
             tecnologia <em>localStorage</em> do navegador, que fica no seu aparelho e não é lida por
             servidores externos. Esse tipo de armazenamento guarda só as suas escolhas (favoritos e
             preferências de acessibilidade) e, pela LGPD, não exige consentimento porque não serve
@@ -106,7 +106,7 @@ export default function Privacidade() {
           </p>
           <p className="mt-3 text-sm text-grafite/80">
             Você pode apagar tudo a qualquer momento limpando os dados do site nas configurações do
-            seu navegador. O site continua funcionando normalmente — só vai esquecer as suas
+            seu navegador. O site continua funcionando normalmente. Ele só vai esquecer as suas
             preferências.
           </p>
         </Reveal>

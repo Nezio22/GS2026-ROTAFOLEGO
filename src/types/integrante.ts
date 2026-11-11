@@ -8,6 +8,6 @@ export interface Integrante {
   avatar: string;
   github?: string;
   linkedin?: string;
-  /** RM — opcional; não é inventado quando não informado */
+  /** RM opcional; não é inventado quando não informado */
   rm?: string;
 }

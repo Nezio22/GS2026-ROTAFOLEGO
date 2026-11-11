@@ -112,7 +112,7 @@ export default function Contato() {
         </div>
       </PageContainer>
 
-      {/* Ilustração — bloco no celular, altura cheia à direita no desktop */}
+      {/* Ilustração: bloco no celular, altura cheia à direita no desktop */}
       <div className="px-4 pb-10 lg:absolute lg:inset-y-0 lg:right-0 lg:w-[40%] lg:px-0 lg:pb-0">
         <img
           src="/images/08_Ilustracoes_Originais_Alta_Resolucao/ilustracao_pessoas_caminhada.png"

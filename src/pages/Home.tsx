@@ -46,7 +46,7 @@ export default function Home() {
 
   return (
     <div>
-      {/* HERO — texto primeiro no celular; imagem full-bleed à direita no desktop */}
+      {/* HERO: texto primeiro no celular; imagem full-bleed à direita no desktop */}
       <section className="relative overflow-hidden">
 
         <PageContainer className="relative py-10 lg:py-24">
@@ -98,7 +98,7 @@ export default function Home() {
                 </span>
                 <div>
                   <p className="text-3xl font-extrabold leading-none text-folego-700">
-                    {n.valor ?? "—"}
+                    {n.valor ?? "0"}
                   </p>
                   <p className="mt-1 text-sm text-grafite/70">{n.label}</p>
                 </div>

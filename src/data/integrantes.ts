@@ -1,7 +1,7 @@
 import type { Integrante } from "../types/integrante";
 
 // Avatares são ilustrações conceituais (não são fotografias reais das pessoas).
-// RM não é preenchido para não inventar números — adicione quando tiver o oficial.
+// RM não é preenchido para não inventar números. Adicione quando tiver o oficial.
 export const integrantes: Integrante[] = [
   {
     slug: "matheus",
