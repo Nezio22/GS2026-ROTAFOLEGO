@@ -59,6 +59,19 @@
   outline-width: 3px;
 }
 
+/* Destaque do bloco que esta sendo lido em voz alta */
+.lendo-agora {
+  background-color: #fff3cd;
+  box-shadow: 0 0 0 4px #fff3cd;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+.modo-contraste .lendo-agora {
+  background-color: #ffe08a;
+  box-shadow: 0 0 0 4px #ffe08a;
+  outline: 2px solid #0b463c;
+}
+
 /* Animação de entrada (revela ao entrar na viewport) */
 .reveal {
   opacity: 0;
