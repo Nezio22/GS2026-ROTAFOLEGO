@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import AccessibilityBar from "./components/layout/AccessibilityBar";
+import ConsentBanner from "./components/layout/ConsentBanner";
 import Home from "./pages/Home";
 import Pontos from "./pages/Pontos";
 import PontoDetalhe from "./pages/PontoDetalhe";
@@ -12,6 +13,7 @@ import Integrantes from "./pages/Integrantes";
 import IntegranteDetalhe from "./pages/IntegranteDetalhe";
 import Faq from "./pages/Faq";
 import Contato from "./pages/Contato";
+import Privacidade from "./pages/Privacidade";
 import NotFound from "./pages/NotFound";
 
 function ScrollToTop() {
@@ -43,6 +45,7 @@ export default function App() {
           <Route path="/integrante/:rm" element={<IntegranteDetalhe />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/contato" element={<Contato />} />
+          <Route path="/privacidade" element={<Privacidade />} />
 
           {/* Solução */}
           <Route path="/pontos" element={<Pontos />} />
@@ -53,6 +56,7 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
+      <ConsentBanner />
     </div>
   );
 }

@@ -70,10 +70,18 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-folego-100">
-        <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-grafite/60">
-          © {new Date().getFullYear()} Rota do Fôlego. Projeto acadêmico da Global Solution
-          2026/2 (CitizenTech · FIAP). Referências: Agenda 2030 da ONU, UN-Habitat e ODS 3, 10 e 11.
-        </p>
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs text-grafite/60">
+            © {new Date().getFullYear()} Rota do Fôlego. Projeto acadêmico da Global Solution
+            2026/2 (CitizenTech · FIAP). Referências: Agenda 2030 da ONU, UN-Habitat e ODS 3, 10 e 11.
+          </p>
+          <Link
+            to="/privacidade"
+            className="shrink-0 text-xs font-bold text-grafite/70 underline underline-offset-2 transition hover:text-folego-700"
+          >
+            Política de Privacidade
+          </Link>
+        </div>
       </div>
     </footer>
   );
