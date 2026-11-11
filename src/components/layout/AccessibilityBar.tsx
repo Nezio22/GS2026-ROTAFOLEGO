@@ -77,7 +77,7 @@ export default function AccessibilityBar() {
           <AArrowUp className="h-4 w-4" aria-hidden />
         </button>
 
-        <span className="mx-1 h-4 w-px bg-folego-200" aria-hidden />
+        <span className="mx-1 h-4 w-px bg-folego-100" aria-hidden />
 
         <button
           type="button"

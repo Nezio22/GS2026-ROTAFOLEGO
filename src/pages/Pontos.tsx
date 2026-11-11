@@ -162,7 +162,7 @@ export default function Pontos() {
                 type="button"
                 onClick={localizarMe}
                 disabled={geoStatus === "carregando"}
-                className="inline-flex items-center gap-2 rounded-full border border-folego-200 bg-white px-4 py-2 text-sm font-bold text-folego-700 transition hover:bg-folego-50 disabled:opacity-60"
+                className="inline-flex items-center gap-2 rounded-full border border-folego-100 bg-white px-4 py-2 text-sm font-bold text-folego-700 transition hover:bg-folego-50 disabled:opacity-60"
               >
                 <LocateFixed className="h-4 w-4" aria-hidden />
                 {geoStatus === "carregando" ? "Localizando..." : "Mais próximos de mim"}
