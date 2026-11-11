@@ -1,7 +1,9 @@
-import { Building2, HeartPulse, Scale } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Building2, HeartPulse, Scale, MapPin, Map, Star } from "lucide-react";
 import PageContainer from "../components/layout/PageContainer";
 import Button from "../components/ui/Button";
 import Reveal from "../components/ui/Reveal";
+import { getEstatisticas, type Estatisticas } from "../services/pontoService";
 
 const ajuda = [
   {
@@ -28,6 +30,20 @@ const ods = [
 ];
 
 export default function Home() {
+  const [stats, setStats] = useState<Estatisticas | null>(null);
+
+  useEffect(() => {
+    getEstatisticas()
+      .then(setStats)
+      .catch(() => setStats(null));
+  }, []);
+
+  const numeros = [
+    { Icon: MapPin, valor: stats?.totalPontos, label: "pontos cadastrados" },
+    { Icon: Map, valor: stats?.totalBairros, label: "bairros atendidos" },
+    { Icon: Star, valor: stats?.totalAvaliacoes, label: "avaliações da comunidade" },
+  ];
+
   return (
     <div>
       {/* HERO — texto primeiro no celular; imagem full-bleed à direita no desktop */}
@@ -69,6 +85,27 @@ export default function Home() {
             aria-hidden
           />
         </div>
+      </section>
+
+      {/* FAIXA DE NÚMEROS */}
+      <section className="pb-2">
+        <PageContainer>
+          <Reveal className="grid grid-cols-1 gap-4 rounded-3xl border border-folego-100 bg-white p-6 shadow-card sm:grid-cols-3">
+            {numeros.map((n) => (
+              <div key={n.label} className="flex items-center gap-4">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-folego-50 text-folego-600">
+                  <n.Icon className="h-6 w-6" aria-hidden />
+                </span>
+                <div>
+                  <p className="text-3xl font-extrabold leading-none text-folego-700">
+                    {n.valor ?? "—"}
+                  </p>
+                  <p className="mt-1 text-sm text-grafite/70">{n.label}</p>
+                </div>
+              </div>
+            ))}
+          </Reveal>
+        </PageContainer>
       </section>
 
       {/* 3 CARDS horizontais */}

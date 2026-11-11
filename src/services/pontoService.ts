@@ -54,6 +54,19 @@ export async function getPontos(): Promise<PontoDescanso[]> {
   return apiFetch<PontoDescanso[]>("/pontos");
 }
 
+export interface Estatisticas {
+  totalPontos: number;
+  totalBairros: number;
+  totalAvaliacoes: number;
+}
+
+export async function getEstatisticas(): Promise<Estatisticas> {
+  const pontos = await getPontos();
+  const totalBairros = new Set(pontos.map((p) => p.bairro.trim().toLowerCase())).size;
+  const totalAvaliacoes = pontos.reduce((soma, p) => soma + (p.qtdAvaliacoes ?? 0), 0);
+  return { totalPontos: pontos.length, totalBairros, totalAvaliacoes };
+}
+
 export async function getPonto(id: number): Promise<PontoDescanso> {
   if (USE_MOCK) {
     const ponto = lerPontosLocais().find((p) => p.cdPonto === id);
