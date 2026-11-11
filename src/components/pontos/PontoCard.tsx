@@ -50,9 +50,10 @@ export default function PontoCard({ ponto }: { ponto: PontoDescanso }) {
 
           <Link
             to={`/ponto/${ponto.cdPonto}`}
-            aria-label={`Ver detalhes de ${ponto.nmPonto}`}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-folego-600 text-white transition hover:bg-folego-700"
+            aria-label={`Saiba mais sobre ${ponto.nmPonto}`}
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-folego-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-folego-700"
           >
+            Saiba mais
             <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </div>
