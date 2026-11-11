@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Star, Umbrella, MapPin, CheckCircle2, Navigation } from "lucide-react";
+import { ArrowLeft, Star, Umbrella, MapPin, CheckCircle2, Navigation, Share2, Check } from "lucide-react";
 import PageContainer from "../components/layout/PageContainer";
 import Loading from "../components/ui/Loading";
 import ErrorMessage from "../components/ui/ErrorMessage";
@@ -26,6 +26,23 @@ export default function PontoDetalhe() {
   const [erroForm, setErroForm] = useState("");
   const [sucesso, setSucesso] = useState(false);
   const [enviando, setEnviando] = useState(false);
+  const [copiado, setCopiado] = useState(false);
+
+  async function compartilhar() {
+    const url = window.location.href;
+    const titulo = ponto ? `Rota do Fôlego · ${ponto.nmPonto}` : "Rota do Fôlego";
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: titulo, url });
+        return;
+      }
+      await navigator.clipboard.writeText(url);
+      setCopiado(true);
+      setTimeout(() => setCopiado(false), 2500);
+    } catch {
+      /* usuário cancelou ou navegador sem suporte */
+    }
+  }
 
   function carregarAvaliacoes() {
     getAvaliacoes(pontoId)
@@ -136,15 +153,34 @@ export default function PontoDetalhe() {
               </span>
             </div>
 
-            <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${ponto.latitude},${ponto.longitude}&travelmode=walking`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-folego-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-folego-700"
-            >
-              <Navigation className="h-4 w-4" aria-hidden />
-              Como chegar no Google Maps
-            </a>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${ponto.latitude},${ponto.longitude}&travelmode=walking`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-folego-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-folego-700"
+              >
+                <Navigation className="h-4 w-4" aria-hidden />
+                Como chegar no Google Maps
+              </a>
+              <button
+                type="button"
+                onClick={compartilhar}
+                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-folego-600 px-5 py-3 text-sm font-semibold text-folego-700 transition hover:bg-folego-50"
+              >
+                {copiado ? (
+                  <>
+                    <Check className="h-4 w-4" aria-hidden />
+                    Link copiado!
+                  </>
+                ) : (
+                  <>
+                    <Share2 className="h-4 w-4" aria-hidden />
+                    Compartilhar
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
 
