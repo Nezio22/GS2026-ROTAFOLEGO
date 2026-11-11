@@ -23,6 +23,28 @@ function haversineKm(a: PontoDescanso, b: PontoDescanso): number {
   return 2 * RAIO_TERRA_KM * Math.asin(Math.sqrt(h));
 }
 
+/** Distância em linha reta (km) entre duas coordenadas soltas. */
+export function distanciaCoordsKm(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+): number {
+  const toRad = (g: number) => (g * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  return 2 * RAIO_TERRA_KM * Math.asin(Math.sqrt(h));
+}
+
+/** Formata uma distância em km para leitura humana (ex.: "350 m", "1,2 km"). */
+export function formatarDistancia(km: number): string {
+  if (km < 1) return `${Math.round(km * 1000)} m`;
+  return `${km.toFixed(1).replace(".", ",")} km`;
+}
+
 /** Distância em linha reta somando as pernas do trajeto (km). */
 export function distanciaTrajetoKm(pontos: PontoDescanso[]): number {
   let total = 0;

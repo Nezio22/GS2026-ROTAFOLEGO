@@ -2,10 +2,17 @@ import { Link } from "react-router-dom";
 import { Star, MapPin, ArrowRight, Heart } from "lucide-react";
 import type { PontoDescanso } from "../../types/ponto";
 import { tipoInfo } from "../../lib/pontos";
+import { formatarDistancia } from "../../lib/trajeto";
 import { useFavoritos } from "../../hooks/useFavoritos";
 import Badge from "../ui/Badge";
 
-export default function PontoCard({ ponto }: { ponto: PontoDescanso }) {
+export default function PontoCard({
+  ponto,
+  distanciaKm,
+}: {
+  ponto: PontoDescanso;
+  distanciaKm?: number;
+}) {
   const info = tipoInfo[ponto.tipo];
   const { isFavorito, alternar } = useFavoritos();
   const favorito = isFavorito(ponto.cdPonto);
@@ -47,6 +54,11 @@ export default function PontoCard({ ponto }: { ponto: PontoDescanso }) {
         <p className="mt-1.5 flex items-center gap-1.5 text-sm text-grafite/70">
           <MapPin className="h-4 w-4 shrink-0 text-folego-500" aria-hidden />
           {ponto.bairro}
+          {typeof distanciaKm === "number" && (
+            <span className="ml-auto shrink-0 rounded-full bg-folego-50 px-2 py-0.5 text-xs font-bold text-folego-700">
+              a {formatarDistancia(distanciaKm)}
+            </span>
+          )}
         </p>
 
         {/* Avaliação + ação */}

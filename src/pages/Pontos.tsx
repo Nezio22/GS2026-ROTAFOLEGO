@@ -10,7 +10,8 @@ import PontoFilters, { type FiltroTipo } from "../components/pontos/PontoFilters
 import PontoForm from "../components/pontos/PontoForm";
 import { getPontos } from "../services/pontoService";
 import { useFavoritos } from "../hooks/useFavoritos";
-import { Heart } from "lucide-react";
+import { distanciaCoordsKm } from "../lib/trajeto";
+import { Heart, LocateFixed, X } from "lucide-react";
 import type { PontoDescanso } from "../types/ponto";
 
 export default function Pontos() {
@@ -23,7 +24,36 @@ export default function Pontos() {
 
   const { favoritos } = useFavoritos();
 
+  const [minhaPos, setMinhaPos] = useState<{ lat: number; lng: number } | null>(null);
+  const [geoStatus, setGeoStatus] = useState<"idle" | "carregando" | "erro">("idle");
+
   const formRef = useRef<HTMLDivElement>(null);
+
+  function localizarMe() {
+    if (!("geolocation" in navigator)) {
+      setGeoStatus("erro");
+      return;
+    }
+    setGeoStatus("carregando");
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setMinhaPos({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        setGeoStatus("idle");
+      },
+      () => setGeoStatus("erro"),
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }
+
+  function limparProximidade() {
+    setMinhaPos(null);
+    setGeoStatus("idle");
+  }
+
+  function distanciaDe(p: PontoDescanso): number | undefined {
+    if (!minhaPos || (p.latitude === 0 && p.longitude === 0)) return undefined;
+    return distanciaCoordsKm(minhaPos.lat, minhaPos.lng, p.latitude, p.longitude);
+  }
 
   function carregar() {
     setCarregando(true);
@@ -40,7 +70,7 @@ export default function Pontos() {
 
   const filtrados = useMemo(() => {
     const q = busca.trim().toLowerCase();
-    return pontos
+    const lista = pontos
       .filter((p) => tipo === "todos" || p.tipo === tipo)
       .filter((p) => {
         if (!q) return true;
@@ -49,9 +79,17 @@ export default function Pontos() {
           p.bairro.toLowerCase().includes(q) ||
           p.dsEndereco.toLowerCase().includes(q)
         );
-      })
-      .sort((a, b) => a.nmPonto.localeCompare(b.nmPonto));
-  }, [pontos, busca, tipo]);
+      });
+
+    if (minhaPos) {
+      const dist = (p: PontoDescanso) =>
+        p.latitude === 0 && p.longitude === 0
+          ? Infinity
+          : distanciaCoordsKm(minhaPos.lat, minhaPos.lng, p.latitude, p.longitude);
+      return lista.sort((a, b) => dist(a) - dist(b));
+    }
+    return lista.sort((a, b) => a.nmPonto.localeCompare(b.nmPonto));
+  }, [pontos, busca, tipo, minhaPos]);
 
   const salvos = useMemo(
     () => pontos.filter((p) => favoritos.includes(p.cdPonto)),
@@ -111,6 +149,36 @@ export default function Pontos() {
             onTipo={setTipo}
             onCadastrar={irParaCadastro}
           />
+
+          {/* Proximidade */}
+          <div className="mt-3 flex flex-wrap items-center gap-3">
+            {!minhaPos ? (
+              <button
+                type="button"
+                onClick={localizarMe}
+                disabled={geoStatus === "carregando"}
+                className="inline-flex items-center gap-2 rounded-full border border-folego-200 bg-white px-4 py-2 text-sm font-bold text-folego-700 transition hover:bg-folego-50 disabled:opacity-60"
+              >
+                <LocateFixed className="h-4 w-4" aria-hidden />
+                {geoStatus === "carregando" ? "Localizando..." : "Mais próximos de mim"}
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={limparProximidade}
+                className="inline-flex items-center gap-2 rounded-full bg-folego-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-folego-700"
+              >
+                <LocateFixed className="h-4 w-4" aria-hidden />
+                Ordenado por distância
+                <X className="h-4 w-4" aria-hidden />
+              </button>
+            )}
+            {geoStatus === "erro" && (
+              <span className="text-sm text-terracota">
+                Não foi possível obter sua localização. Verifique a permissão do navegador.
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Lista */}
@@ -137,7 +205,7 @@ export default function Pontos() {
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {filtrados.map((p, i) => (
                   <Reveal key={p.cdPonto} delay={(i % 3) * 80}>
-                    <PontoCard ponto={p} />
+                    <PontoCard ponto={p} distanciaKm={distanciaDe(p)} />
                   </Reveal>
                 ))}
               </div>
