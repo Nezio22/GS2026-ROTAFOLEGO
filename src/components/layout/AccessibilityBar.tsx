@@ -254,7 +254,7 @@ export default function AccessibilityBar() {
         <div
           role="dialog"
           aria-label="Opções de acessibilidade"
-          className="absolute bottom-16 right-0 w-[min(19rem,calc(100vw-2rem))] rounded-3xl border border-folego-100 bg-white p-5 shadow-soft"
+          className="absolute bottom-24 right-0 w-[min(19rem,calc(100vw-2rem))] rounded-3xl border border-folego-100 bg-white p-5 shadow-soft"
         >
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-base font-extrabold text-folego-700">Acessibilidade</h2>
@@ -364,9 +364,9 @@ export default function AccessibilityBar() {
         onClick={() => setAberto((v) => !v)}
         aria-expanded={aberto}
         aria-label={aberto ? "Fechar opções de acessibilidade" : "Abrir opções de acessibilidade"}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-folego-600 shadow-soft transition hover:bg-folego-700 focus-visible:ring-2 focus-visible:ring-folego-500 focus-visible:ring-offset-2"
+        className="flex h-20 w-20 items-center justify-center rounded-full bg-folego-600 shadow-soft transition hover:bg-folego-700 focus-visible:ring-2 focus-visible:ring-folego-500 focus-visible:ring-offset-2"
       >
-        <img src="/acessibilidade.png" alt="" aria-hidden className="h-8 w-8" />
+        <img src="/acessibilidade.png" alt="" aria-hidden className="h-14 w-14" />
       </button>
     </div>
   );
