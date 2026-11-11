@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
+import AccessibilityBar from "./components/layout/AccessibilityBar";
 import Home from "./pages/Home";
 import Pontos from "./pages/Pontos";
 import PontoDetalhe from "./pages/PontoDetalhe";
@@ -25,6 +26,7 @@ export default function App() {
   return (
     <div className="flex min-h-screen flex-col">
       <ScrollToTop />
+      <AccessibilityBar />
       <Navbar />
       <main className="flex-1">
         <Routes>
