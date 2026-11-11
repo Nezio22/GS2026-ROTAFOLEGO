@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Star, Umbrella, MapPin, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Star, Umbrella, MapPin, CheckCircle2, Navigation } from "lucide-react";
 import PageContainer from "../components/layout/PageContainer";
 import Loading from "../components/ui/Loading";
 import ErrorMessage from "../components/ui/ErrorMessage";
@@ -135,6 +135,16 @@ export default function PontoDetalhe() {
                 {ponto.coberto ? "Coberto" : "Sem cobertura"}
               </span>
             </div>
+
+            <a
+              href={`https://www.google.com/maps/dir/?api=1&destination=${ponto.latitude},${ponto.longitude}&travelmode=walking`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-folego-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-folego-700"
+            >
+              <Navigation className="h-4 w-4" aria-hidden />
+              Como chegar no Google Maps
+            </a>
           </div>
         </div>
 
