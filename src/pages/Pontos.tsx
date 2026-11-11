@@ -100,6 +100,11 @@ export default function Pontos() {
     formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  function limparFiltros() {
+    setBusca("");
+    setTipo("todos");
+  }
+
   return (
     <div className="py-10 sm:py-14">
       <PageContainer>
@@ -193,7 +198,15 @@ export default function Pontos() {
                   ? "Seja a primeira pessoa a cadastrar um ponto de descanso."
                   : "Ajuste a busca ou os filtros para encontrar o que procura."
               }
-              acao={<Button onClick={irParaCadastro}>Cadastrar ponto</Button>}
+              acao={
+                pontos.length === 0 ? (
+                  <Button onClick={irParaCadastro}>Cadastrar ponto</Button>
+                ) : (
+                  <Button variant="outline" onClick={limparFiltros}>
+                    Limpar filtros
+                  </Button>
+                )
+              }
             />
           )}
           {!carregando && !erro && filtrados.length > 0 && (
