@@ -9,6 +9,7 @@ import {
   Square,
   Gauge,
   Hand,
+  X,
 } from "lucide-react";
 
 // Três níveis de fonte aplicados no <html> (rem escala o site inteiro).
@@ -31,6 +32,7 @@ const SELETOR_BLOCOS = "h1, h2, h3, h4, p, li, a, button";
 const TEM_VOZ = typeof window !== "undefined" && "speechSynthesis" in window;
 
 export default function AccessibilityBar() {
+  const [aberto, setAberto] = useState(false);
   const [nivel, setNivel] = useState(0);
   const [contraste, setContraste] = useState(false);
   const [lendo, setLendo] = useState(false);
@@ -38,6 +40,7 @@ export default function AccessibilityBar() {
   const [falarAoPassar, setFalarAoPassar] = useState(false);
   const { pathname } = useLocation();
 
+  const widgetRef = useRef<HTMLDivElement>(null);
   // Elemento atualmente destacado durante a leitura (para limpar depois).
   const destacadoRef = useRef<HTMLElement | null>(null);
   // Velocidade atual acessível de dentro dos callbacks da fala.
@@ -125,6 +128,23 @@ export default function AccessibilityBar() {
     };
   }, []);
 
+  // Fecha o painel ao clicar fora ou apertar Esc.
+  useEffect(() => {
+    if (!aberto) return;
+    const onClick = (e: MouseEvent) => {
+      if (!widgetRef.current?.contains(e.target as Node)) setAberto(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setAberto(false);
+    };
+    document.addEventListener("mousedown", onClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [aberto]);
+
   function ouvirPagina() {
     if (!TEM_VOZ) return;
     if (lendo) {
@@ -179,6 +199,9 @@ export default function AccessibilityBar() {
   // Modo "falar ao passar": le o item sob o mouse (desktop) ou o toque (celular).
   useEffect(() => {
     if (!TEM_VOZ || !falarAoPassar) return;
+    const conteudo = document.getElementById("conteudo");
+    if (!conteudo) return;
+
     const alvo = (e: Event) =>
       (e.target as HTMLElement | null)?.closest<HTMLElement>(SELETOR_BLOCOS) ?? null;
     let ultimo: HTMLElement | null = null;
@@ -205,113 +228,146 @@ export default function AccessibilityBar() {
     };
     const onTouch = (e: Event) => falarItem(alvo(e));
 
-    document.addEventListener("mouseover", onMouseOver);
-    document.addEventListener("mouseout", onMouseOut);
-    document.addEventListener("touchstart", onTouch, { passive: true });
+    conteudo.addEventListener("mouseover", onMouseOver);
+    conteudo.addEventListener("mouseout", onMouseOut);
+    conteudo.addEventListener("touchstart", onTouch, { passive: true });
     return () => {
-      document.removeEventListener("mouseover", onMouseOver);
-      document.removeEventListener("mouseout", onMouseOut);
-      document.removeEventListener("touchstart", onTouch);
+      conteudo.removeEventListener("mouseover", onMouseOver);
+      conteudo.removeEventListener("mouseout", onMouseOut);
+      conteudo.removeEventListener("touchstart", onTouch);
       window.speechSynthesis.cancel();
     };
   }, [falarAoPassar]);
 
-  const btn =
-    "flex h-8 w-8 items-center justify-center rounded-md text-folego-700 transition hover:bg-folego-100 disabled:opacity-40 disabled:hover:bg-transparent";
-  const pill = (ativo: boolean) =>
-    `flex h-8 items-center gap-1.5 rounded-md px-2 text-xs font-bold transition ${
-      ativo ? "bg-folego-700 text-white" : "text-folego-700 hover:bg-folego-100"
+  const linha = "flex items-center justify-between gap-3";
+  const chip =
+    "flex h-9 w-9 items-center justify-center rounded-lg border border-folego-100 text-folego-700 transition hover:bg-folego-50 disabled:opacity-40 disabled:hover:bg-transparent";
+  const toggle = (ativo: boolean) =>
+    `flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm font-bold transition ${
+      ativo ? "bg-folego-700 text-white" : "border border-folego-100 text-folego-700 hover:bg-folego-50"
     }`;
 
   return (
-    <div className="border-b border-folego-100/70 bg-folego-50/80">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-end gap-1 px-4 py-1.5">
-        <span className="mr-1 text-xs font-bold uppercase tracking-wide text-folego-700/70">
-          Acessibilidade
-        </span>
-        <button
-          type="button"
-          onClick={() => setNivel((n) => Math.max(0, n - 1))}
-          disabled={nivel === 0}
-          aria-label="Diminuir tamanho da fonte"
-          className={btn}
+    <div ref={widgetRef} className="fixed bottom-4 right-4 z-50 sm:bottom-6 sm:right-6">
+      {/* Painel */}
+      {aberto && (
+        <div
+          role="dialog"
+          aria-label="Opções de acessibilidade"
+          className="absolute bottom-16 right-0 w-[min(19rem,calc(100vw-2rem))] rounded-3xl border border-folego-100 bg-white p-5 shadow-soft"
         >
-          <AArrowDown className="h-4 w-4" aria-hidden />
-        </button>
-        <button
-          type="button"
-          onClick={() => setNivel(0)}
-          disabled={nivel === 0}
-          aria-label="Restaurar tamanho padrão da fonte"
-          className={btn}
-        >
-          <RotateCcw className="h-4 w-4" aria-hidden />
-        </button>
-        <button
-          type="button"
-          onClick={() => setNivel((n) => Math.min(ESCALAS.length - 1, n + 1))}
-          disabled={nivel === ESCALAS.length - 1}
-          aria-label="Aumentar tamanho da fonte"
-          className={btn}
-        >
-          <AArrowUp className="h-4 w-4" aria-hidden />
-        </button>
-
-        <span className="mx-1 h-4 w-px bg-folego-100" aria-hidden />
-
-        <button
-          type="button"
-          onClick={() => setContraste((c) => !c)}
-          aria-pressed={contraste}
-          className={pill(contraste)}
-        >
-          <Contrast className="h-4 w-4" aria-hidden />
-          Alto contraste
-        </button>
-
-        {TEM_VOZ && (
-          <>
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-base font-extrabold text-folego-700">Acessibilidade</h2>
             <button
               type="button"
-              onClick={ouvirPagina}
-              aria-pressed={lendo}
-              aria-label={lendo ? "Parar a leitura em voz alta" : "Ouvir esta página em voz alta"}
-              className={pill(lendo)}
+              onClick={() => setAberto(false)}
+              aria-label="Fechar"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-grafite/60 transition hover:bg-folego-50"
             >
-              {lendo ? (
-                <>
-                  <Square className="h-4 w-4" aria-hidden />
-                  Parar
-                </>
-              ) : (
-                <>
-                  <Volume2 className="h-4 w-4" aria-hidden />
-                  Ouvir
-                </>
-              )}
+              <X className="h-4 w-4" aria-hidden />
             </button>
+          </div>
+
+          <div className="space-y-4">
+            {/* Tamanho da fonte */}
+            <div className={linha}>
+              <span className="text-sm font-semibold text-grafite/80">Tamanho da fonte</span>
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setNivel((n) => Math.max(0, n - 1))}
+                  disabled={nivel === 0}
+                  aria-label="Diminuir tamanho da fonte"
+                  className={chip}
+                >
+                  <AArrowDown className="h-4 w-4" aria-hidden />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setNivel(0)}
+                  disabled={nivel === 0}
+                  aria-label="Restaurar tamanho padrão da fonte"
+                  className={chip}
+                >
+                  <RotateCcw className="h-4 w-4" aria-hidden />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setNivel((n) => Math.min(ESCALAS.length - 1, n + 1))}
+                  disabled={nivel === ESCALAS.length - 1}
+                  aria-label="Aumentar tamanho da fonte"
+                  className={chip}
+                >
+                  <AArrowUp className="h-4 w-4" aria-hidden />
+                </button>
+              </div>
+            </div>
+
+            {/* Alto contraste */}
             <button
               type="button"
-              onClick={() => setVelIndex((v) => (v + 1) % VELOCIDADES.length)}
-              aria-label={`Velocidade da voz: ${VELOCIDADES[velIndex].label}. Clique para alterar.`}
-              className="flex h-8 items-center gap-1.5 rounded-md px-2 text-xs font-bold text-folego-700 transition hover:bg-folego-100"
+              onClick={() => setContraste((c) => !c)}
+              aria-pressed={contraste}
+              className={toggle(contraste)}
             >
-              <Gauge className="h-4 w-4" aria-hidden />
-              {VELOCIDADES[velIndex].label}
+              <Contrast className="h-4 w-4" aria-hidden />
+              Alto contraste{contraste ? ": ligado" : ""}
             </button>
-            <button
-              type="button"
-              onClick={() => setFalarAoPassar((v) => !v)}
-              aria-pressed={falarAoPassar}
-              aria-label="Falar o item ao passar o mouse ou o dedo por cima"
-              className={pill(falarAoPassar)}
-            >
-              <Hand className="h-4 w-4" aria-hidden />
-              Falar ao passar
-            </button>
-          </>
-        )}
-      </div>
+
+            {TEM_VOZ && (
+              <div className="space-y-2 border-t border-folego-100 pt-4">
+                <button
+                  type="button"
+                  onClick={ouvirPagina}
+                  aria-pressed={lendo}
+                  className={toggle(lendo)}
+                >
+                  {lendo ? (
+                    <>
+                      <Square className="h-4 w-4" aria-hidden />
+                      Parar leitura
+                    </>
+                  ) : (
+                    <>
+                      <Volume2 className="h-4 w-4" aria-hidden />
+                      Ouvir a página
+                    </>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setVelIndex((v) => (v + 1) % VELOCIDADES.length)}
+                  aria-label={`Velocidade da voz: ${VELOCIDADES[velIndex].label}. Clique para alterar.`}
+                  className={toggle(false)}
+                >
+                  <Gauge className="h-4 w-4" aria-hidden />
+                  Velocidade: {VELOCIDADES[velIndex].label}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFalarAoPassar((v) => !v)}
+                  aria-pressed={falarAoPassar}
+                  className={toggle(falarAoPassar)}
+                >
+                  <Hand className="h-4 w-4" aria-hidden />
+                  Falar ao passar{falarAoPassar ? ": ligado" : ""}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Bolinha flutuante */}
+      <button
+        type="button"
+        onClick={() => setAberto((v) => !v)}
+        aria-expanded={aberto}
+        aria-label={aberto ? "Fechar opções de acessibilidade" : "Abrir opções de acessibilidade"}
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-folego-600 text-2xl text-white shadow-soft transition hover:bg-folego-700 focus-visible:ring-2 focus-visible:ring-folego-500 focus-visible:ring-offset-2"
+      >
+        <span aria-hidden>♿</span>
+      </button>
     </div>
   );
 }
