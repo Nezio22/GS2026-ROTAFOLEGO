@@ -148,6 +148,24 @@ export default function PontoDetalhe() {
           </div>
         </div>
 
+        {/* Mapa do local */}
+        {ponto.latitude !== 0 && ponto.longitude !== 0 && (
+          <section className="mt-6 overflow-hidden rounded-3xl border border-folego-100 bg-white shadow-card">
+            <h2 className="px-6 pt-5 text-base font-extrabold text-folego-700 sm:px-8">
+              Onde fica
+            </h2>
+            <div className="mt-3 aspect-[16/10] w-full sm:aspect-[21/9]">
+              <iframe
+                title={`Mapa de ${ponto.nmPonto}`}
+                src={`https://www.google.com/maps?q=${ponto.latitude},${ponto.longitude}&z=16&output=embed`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="h-full w-full border-0"
+              />
+            </div>
+          </section>
+        )}
+
         {/* Avaliações */}
         <section className="mt-10">
           <h2 className="text-xl font-extrabold text-folego-700">Avaliações</h2>
