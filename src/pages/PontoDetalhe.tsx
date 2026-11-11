@@ -7,7 +7,6 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 import Button from "../components/ui/Button";
 import Badge from "../components/ui/Badge";
 import FormField, { inputClasses } from "../components/ui/FormField";
-import Select from "../components/ui/Select";
 import { getPonto, getAvaliacoes, avaliarPonto } from "../services/pontoService";
 import { tipoInfo } from "../lib/pontos";
 import type { PontoDescanso, Avaliacao } from "../types/ponto";
@@ -22,6 +21,7 @@ export default function PontoDetalhe() {
   const [erro, setErro] = useState("");
 
   const [nota, setNota] = useState("5");
+  const [notaHover, setNotaHover] = useState(0);
   const [comentario, setComentario] = useState("");
   const [erroForm, setErroForm] = useState("");
   const [sucesso, setSucesso] = useState(false);
@@ -244,15 +244,36 @@ export default function PontoDetalhe() {
 
           <form onSubmit={handleSubmit} noValidate className="mt-5 space-y-4">
             <FormField label="Nota" htmlFor="nota" required>
-              <Select
-                value={nota}
-                onChange={setNota}
-                ariaLabel="Nota de 1 a 5"
-                options={[5, 4, 3, 2, 1].map((n) => ({
-                  value: String(n),
-                  label: `${n}  ${"★".repeat(n)}`,
-                }))}
-              />
+              <div
+                role="radiogroup"
+                aria-label="Nota de 1 a 5 estrelas"
+                className="flex items-center gap-1"
+                onMouseLeave={() => setNotaHover(0)}
+              >
+                {[1, 2, 3, 4, 5].map((n) => {
+                  const ativa = n <= (notaHover || Number(nota));
+                  return (
+                    <button
+                      key={n}
+                      type="button"
+                      role="radio"
+                      aria-checked={Number(nota) === n}
+                      aria-label={`${n} ${n === 1 ? "estrela" : "estrelas"}`}
+                      onClick={() => setNota(String(n))}
+                      onMouseEnter={() => setNotaHover(n)}
+                      className="rounded-md p-1 transition hover:scale-110"
+                    >
+                      <Star
+                        className={`h-8 w-8 transition ${
+                          ativa ? "fill-amber-500 text-amber-500" : "fill-transparent text-grafite/25"
+                        }`}
+                        aria-hidden
+                      />
+                    </button>
+                  );
+                })}
+                <span className="ml-2 text-sm font-bold text-grafite/70">{nota} de 5</span>
+              </div>
             </FormField>
 
             <FormField label="Comentário" htmlFor="comentario" hint="Opcional">
