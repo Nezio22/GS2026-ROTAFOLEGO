@@ -9,6 +9,8 @@ import PontoCard from "../components/pontos/PontoCard";
 import PontoFilters, { type FiltroTipo } from "../components/pontos/PontoFilters";
 import PontoForm from "../components/pontos/PontoForm";
 import { getPontos } from "../services/pontoService";
+import { useFavoritos } from "../hooks/useFavoritos";
+import { Heart } from "lucide-react";
 import type { PontoDescanso } from "../types/ponto";
 
 export default function Pontos() {
@@ -18,6 +20,8 @@ export default function Pontos() {
 
   const [busca, setBusca] = useState("");
   const [tipo, setTipo] = useState<FiltroTipo>("todos");
+
+  const { favoritos } = useFavoritos();
 
   const formRef = useRef<HTMLDivElement>(null);
 
@@ -49,6 +53,11 @@ export default function Pontos() {
       .sort((a, b) => a.nmPonto.localeCompare(b.nmPonto));
   }, [pontos, busca, tipo]);
 
+  const salvos = useMemo(
+    () => pontos.filter((p) => favoritos.includes(p.cdPonto)),
+    [pontos, favoritos]
+  );
+
   function irParaCadastro() {
     formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -77,8 +86,24 @@ export default function Pontos() {
           />
         </Reveal>
 
+        {/* Meus salvos */}
+        {salvos.length > 0 && (
+          <section className="mt-10">
+            <h2 className="flex items-center gap-2 text-xl font-extrabold text-folego-700">
+              <Heart className="h-5 w-5 fill-terracota text-terracota" aria-hidden />
+              Meus salvos
+              <span className="text-sm font-semibold text-grafite/50">({salvos.length})</span>
+            </h2>
+            <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {salvos.map((p) => (
+                <PontoCard key={p.cdPonto} ponto={p} />
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Filtros */}
-        <div className="mt-8">
+        <div className="mt-10">
           <PontoFilters
             busca={busca}
             onBusca={setBusca}

@@ -1,22 +1,37 @@
 import { Link } from "react-router-dom";
-import { Star, MapPin, ArrowRight } from "lucide-react";
+import { Star, MapPin, ArrowRight, Heart } from "lucide-react";
 import type { PontoDescanso } from "../../types/ponto";
 import { tipoInfo } from "../../lib/pontos";
+import { useFavoritos } from "../../hooks/useFavoritos";
 import Badge from "../ui/Badge";
 
 export default function PontoCard({ ponto }: { ponto: PontoDescanso }) {
   const info = tipoInfo[ponto.tipo];
+  const { isFavorito, alternar } = useFavoritos();
+  const favorito = isFavorito(ponto.cdPonto);
 
   return (
     <article className="group flex flex-col rounded-3xl border border-folego-100 bg-white p-3 shadow-card transition hover:-translate-y-1 hover:shadow-soft">
       {/* Imagem com leve margem interna */}
-      <div className="overflow-hidden rounded-2xl bg-areia/40">
+      <div className="relative overflow-hidden rounded-2xl bg-areia/40">
         <img
           src={info.imagem}
           alt={`Ilustração representando um ponto do tipo ${info.label.toLowerCase()}`}
           loading="lazy"
           className="h-40 w-full object-cover transition duration-500 group-hover:scale-105"
         />
+        <button
+          type="button"
+          onClick={() => alternar(ponto.cdPonto)}
+          aria-pressed={favorito}
+          aria-label={favorito ? `Remover ${ponto.nmPonto} dos salvos` : `Salvar ${ponto.nmPonto}`}
+          className="absolute right-2.5 top-2.5 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-folego-700 shadow-sm backdrop-blur transition hover:bg-white"
+        >
+          <Heart
+            className={`h-5 w-5 transition ${favorito ? "fill-terracota text-terracota" : "text-folego-600"}`}
+            aria-hidden
+          />
+        </button>
       </div>
 
       <div className="flex flex-1 flex-col px-2 pb-1 pt-4">
