@@ -250,11 +250,14 @@ export default function AccessibilityBar() {
   return (
     <div ref={widgetRef} className="fixed bottom-4 right-4 z-50 sm:bottom-6 sm:right-6">
       {/* Painel */}
-      {aberto && (
+      {
         <div
           role="dialog"
           aria-label="Opções de acessibilidade"
-          className="absolute bottom-20 right-0 w-[min(19rem,calc(100vw-2rem))] rounded-3xl border border-folego-100 bg-white p-5 shadow-soft"
+          aria-hidden={!aberto}
+          className={`absolute bottom-20 right-0 w-[min(19rem,calc(100vw-2rem))] origin-bottom-right rounded-3xl border border-folego-100 bg-white p-5 shadow-soft transition-[opacity,transform,visibility] duration-200 ease-out motion-reduce:transition-none ${
+            aberto ? "visible scale-100 opacity-100" : "invisible translate-y-2 scale-95 opacity-0"
+          }`}
         >
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-base font-extrabold text-folego-700">Acessibilidade</h2>
@@ -356,7 +359,7 @@ export default function AccessibilityBar() {
             )}
           </div>
         </div>
-      )}
+      }
 
       {/* Bolinha flutuante */}
       <button
@@ -364,9 +367,16 @@ export default function AccessibilityBar() {
         onClick={() => setAberto((v) => !v)}
         aria-expanded={aberto}
         aria-label={aberto ? "Fechar opções de acessibilidade" : "Abrir opções de acessibilidade"}
-        className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-folego-600 shadow-soft transition hover:bg-folego-700 focus-visible:ring-2 focus-visible:ring-folego-500 focus-visible:ring-offset-2"
+        className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-folego-600 shadow-soft transition hover:bg-folego-700 hover:scale-105 active:scale-95 focus-visible:ring-2 focus-visible:ring-folego-500 focus-visible:ring-offset-2 motion-reduce:transition-none"
       >
-        <img src="/acessibilidade.png" alt="" aria-hidden className="h-[85%] w-[85%] object-contain" />
+        <img
+          src="/acessibilidade.png"
+          alt=""
+          aria-hidden
+          className={`h-[85%] w-[85%] object-contain transition-transform duration-300 ease-out motion-reduce:transition-none ${
+            aberto ? "rotate-90" : "rotate-0"
+          }`}
+        />
       </button>
     </div>
   );
