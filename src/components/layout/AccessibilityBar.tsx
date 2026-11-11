@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
-import { AArrowDown, AArrowUp, RotateCcw, Contrast } from "lucide-react";
+import { useLocation } from "react-router-dom";
+import { AArrowDown, AArrowUp, RotateCcw, Contrast, Volume2, Square } from "lucide-react";
 
 // Três níveis de fonte aplicados no <html> (rem escala o site inteiro).
 const ESCALAS = [100, 112, 125];
 const STORAGE_FONTE = "rotafolego:fonte";
 const STORAGE_CONTRASTE = "rotafolego:contraste";
 
+const TEM_VOZ = typeof window !== "undefined" && "speechSynthesis" in window;
+
 export default function AccessibilityBar() {
   const [nivel, setNivel] = useState(0);
   const [contraste, setContraste] = useState(false);
+  const [lendo, setLendo] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     try {
@@ -39,6 +44,33 @@ export default function AccessibilityBar() {
       /* ignora */
     }
   }, [contraste]);
+
+  // Para a leitura em voz ao trocar de página (o texto ja mudou).
+  useEffect(() => {
+    if (TEM_VOZ) window.speechSynthesis.cancel();
+    setLendo(false);
+  }, [pathname]);
+
+  function ouvirPagina() {
+    if (!TEM_VOZ) return;
+    if (lendo) {
+      window.speechSynthesis.cancel();
+      setLendo(false);
+      return;
+    }
+    const conteudo = document.getElementById("conteudo");
+    const texto = conteudo?.innerText?.trim();
+    if (!texto) return;
+
+    window.speechSynthesis.cancel();
+    const fala = new SpeechSynthesisUtterance(texto);
+    fala.lang = "pt-BR";
+    fala.rate = 0.95; // ritmo um pouco mais calmo
+    fala.onend = () => setLendo(false);
+    fala.onerror = () => setLendo(false);
+    window.speechSynthesis.speak(fala);
+    setLendo(true);
+  }
 
   const btn =
     "flex h-8 w-8 items-center justify-center rounded-md text-folego-700 transition hover:bg-folego-100 disabled:opacity-40 disabled:hover:bg-transparent";
@@ -92,6 +124,30 @@ export default function AccessibilityBar() {
           <Contrast className="h-4 w-4" aria-hidden />
           Alto contraste
         </button>
+
+        {TEM_VOZ && (
+          <button
+            type="button"
+            onClick={ouvirPagina}
+            aria-pressed={lendo}
+            aria-label={lendo ? "Parar a leitura em voz alta" : "Ouvir esta página em voz alta"}
+            className={`flex h-8 items-center gap-1.5 rounded-md px-2 text-xs font-bold transition ${
+              lendo ? "bg-folego-700 text-white" : "text-folego-700 hover:bg-folego-100"
+            }`}
+          >
+            {lendo ? (
+              <>
+                <Square className="h-4 w-4" aria-hidden />
+                Parar
+              </>
+            ) : (
+              <>
+                <Volume2 className="h-4 w-4" aria-hidden />
+                Ouvir
+              </>
+            )}
+          </button>
+        )}
       </div>
     </div>
   );
