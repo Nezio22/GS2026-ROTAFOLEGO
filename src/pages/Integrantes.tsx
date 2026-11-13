@@ -45,7 +45,7 @@ export default function Integrantes() {
                 <h2 className="mt-4 text-xl font-extrabold text-folego-700">{pessoa.nome}</h2>
                 <p className="mt-1 text-sm text-grafite/70">{pessoa.papel}</p>
                 {pessoa.rm && (
-                  <p className="mt-2 text-sm text-grafite/50">· RM {pessoa.rm}</p>
+                  <p className="mt-2 text-sm text-grafite/80">· RM {pessoa.rm}</p>
                 )}
 
                 <Link
@@ -60,7 +60,7 @@ export default function Integrantes() {
           ))}
         </div>
 
-        <p className="mt-8 text-xs text-grafite/50">
+        <p className="mt-8 text-xs text-grafite/70">
           Os avatares são ilustrações conceituais e não representam fotografias reais das pessoas.
         </p>
       </PageContainer>

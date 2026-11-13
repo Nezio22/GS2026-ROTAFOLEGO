@@ -29,7 +29,7 @@ export default function Footer() {
           <p className="mt-4 max-w-xs text-sm text-grafite/70">
             Tecnologia que ajuda você a caminhar no seu ritmo, com um lugar para descansar.
           </p>
-          <p className="mt-4 text-xs font-bold uppercase tracking-wider text-folego-500">
+          <p className="mt-4 text-xs font-bold uppercase tracking-wider text-folego-600">
             CitizenTech · Global Solution 2026/2 · FIAP
           </p>
         </div>
@@ -71,7 +71,7 @@ export default function Footer() {
 
       <div className="border-t border-folego-100">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-grafite/60">
+          <p className="text-xs text-grafite/80">
             © {new Date().getFullYear()} Rota do Fôlego. Projeto acadêmico da Global Solution
             2026/2 (CitizenTech · FIAP). Referências: Agenda 2030 da ONU, UN-Habitat e ODS 3, 10 e 11.
           </p>

@@ -224,7 +224,7 @@ export default function PontoDetalhe() {
         <section className="mt-10">
           <h2 className="text-xl font-extrabold text-folego-700">Avaliações</h2>
           {avaliacoes.length === 0 ? (
-            <p className="mt-2 text-sm text-grafite/60">
+            <p className="mt-2 text-sm text-grafite/80">
               Ainda não há avaliações. Seja a primeira pessoa a avaliar este ponto.
             </p>
           ) : (

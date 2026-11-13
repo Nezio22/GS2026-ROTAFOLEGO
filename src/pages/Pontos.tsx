@@ -112,7 +112,7 @@ export default function Pontos() {
         {/* Cabeçalho */}
         <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-folego-500">
+            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-folego-600">
               Pontos de descanso
             </p>
             <h1 className="mt-3 text-3xl font-extrabold text-folego-700 sm:text-4xl">
@@ -136,7 +136,7 @@ export default function Pontos() {
             <h2 className="flex items-center gap-2 text-xl font-extrabold text-folego-700">
               <Heart className="h-5 w-5 fill-terracota text-terracota" aria-hidden />
               Meus salvos
-              <span className="text-sm font-semibold text-grafite/50">({salvos.length})</span>
+              <span className="text-sm font-semibold text-grafite/80">({salvos.length})</span>
             </h2>
             <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {salvos.map((p) => (
@@ -212,7 +212,7 @@ export default function Pontos() {
           )}
           {!carregando && !erro && filtrados.length > 0 && (
             <>
-              <p className="mb-4 text-sm text-grafite/60">
+              <p className="mb-4 text-sm text-grafite/80">
                 {filtrados.length}{" "}
                 {filtrados.length === 1 ? "ponto encontrado" : "pontos encontrados"}
               </p>

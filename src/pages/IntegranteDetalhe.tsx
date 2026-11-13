@@ -46,7 +46,7 @@ export default function IntegranteDetalhe() {
             <div>
               <h1 className="text-3xl font-extrabold text-folego-700">{pessoa.nome}</h1>
               <p className="mt-1 font-medium text-terracota">{pessoa.papel}</p>
-              {pessoa.rm && <p className="mt-1 text-sm text-grafite/60">RM {pessoa.rm}</p>}
+              {pessoa.rm && <p className="mt-1 text-sm text-grafite/80">RM {pessoa.rm}</p>}
               <div className="mt-3 flex flex-wrap justify-center gap-1.5 sm:justify-start">
                 {pessoa.disciplinas.map((d) => (
                   <Badge key={d} tone="salvia">

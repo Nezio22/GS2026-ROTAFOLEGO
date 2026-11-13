@@ -38,7 +38,7 @@ export default function Privacidade() {
             Como o Rota do Fôlego trata os seus dados. Escrito em linguagem simples, em respeito à
             Lei Geral de Proteção de Dados (LGPD, a Lei nº 13.709/2018).
           </p>
-          <p className="mt-1 text-xs font-bold uppercase tracking-wider text-folego-500">
+          <p className="mt-1 text-xs font-bold uppercase tracking-wider text-folego-600">
             Atualizada em novembro de 2026
           </p>
         </Reveal>

@@ -68,11 +68,11 @@ export default function PontoCard({
               <Star className="h-4 w-4 fill-amber-500 text-amber-500" aria-hidden />
               <span className="font-bold text-amber-600">{ponto.notaMedia.toFixed(1)}</span>
               {typeof ponto.qtdAvaliacoes === "number" && ponto.qtdAvaliacoes > 0 && (
-                <span className="text-grafite/60">({ponto.qtdAvaliacoes} avaliações)</span>
+                <span className="text-grafite/80">({ponto.qtdAvaliacoes} avaliações)</span>
               )}
             </span>
           ) : (
-            <span className="text-sm text-grafite/50">Sem avaliações</span>
+            <span className="text-sm text-grafite/80">Sem avaliações</span>
           )}
 
           <Link

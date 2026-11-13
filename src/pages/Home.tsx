@@ -51,7 +51,7 @@ export default function Home() {
 
         <PageContainer className="relative py-10 lg:py-24">
           <Reveal className="lg:max-w-[52%]">
-            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-folego-500">
+            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-folego-600">
               CitizenTech · Global Solution 2026/2
             </p>
             <h1 className="mt-4 text-3xl font-extrabold leading-tight text-folego-700 sm:text-4xl lg:text-5xl">

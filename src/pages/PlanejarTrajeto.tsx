@@ -71,7 +71,7 @@ export default function PlanejarTrajeto() {
     <div className="py-10 sm:py-14">
       <PageContainer>
         <Reveal className="max-w-2xl">
-          <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-folego-500">
+          <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-folego-600">
             Planejar trajeto
           </p>
           <h1 className="mt-3 text-3xl font-extrabold text-folego-700 sm:text-4xl">

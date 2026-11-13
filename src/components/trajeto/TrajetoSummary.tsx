@@ -56,7 +56,7 @@ export default function TrajetoSummary({ trajeto }: { trajeto: PontoDescanso[] }
                   <s.Icon className="h-5 w-5" aria-hidden />
                 </span>
                 <div>
-                  <dt className="text-xs text-grafite/60">{s.label}</dt>
+                  <dt className="text-xs text-grafite/80">{s.label}</dt>
                   <dd className="text-lg font-extrabold text-folego-700">{s.valor}</dd>
                 </div>
               </div>
@@ -85,12 +85,12 @@ export default function TrajetoSummary({ trajeto }: { trajeto: PontoDescanso[] }
               Gerar trajeto no Google Maps
             </a>
           ) : (
-            <p className="mt-5 rounded-xl bg-areia/30 px-4 py-3 text-center text-xs text-grafite/60">
+            <p className="mt-5 rounded-xl bg-areia/30 px-4 py-3 text-center text-xs text-grafite/80">
               Selecione ao menos 2 pontos com localização para gerar a rota.
             </p>
           )}
 
-          <p className="mt-3 text-center text-[11px] text-grafite/50">
+          <p className="mt-3 text-center text-[11px] text-grafite/70">
             Distância em linha reta. A rota real pode variar conforme as ruas.
           </p>
         </>

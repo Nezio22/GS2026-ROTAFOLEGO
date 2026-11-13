@@ -24,7 +24,7 @@ export default function FormField({
         {required && <span className="ml-0.5 text-terracota">*</span>}
       </label>
       {children}
-      {hint && !error && <span className="text-xs text-grafite/60">{hint}</span>}
+      {hint && !error && <span className="text-xs text-grafite/80">{hint}</span>}
       {error && (
         <span className="text-sm font-medium text-rose-600" role="alert">
           {error}

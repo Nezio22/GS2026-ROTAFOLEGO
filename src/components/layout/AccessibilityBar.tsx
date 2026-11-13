@@ -265,7 +265,7 @@ export default function AccessibilityBar() {
               type="button"
               onClick={() => setAberto(false)}
               aria-label="Fechar"
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-grafite/60 transition hover:bg-folego-50"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-grafite/80 transition hover:bg-folego-50"
             >
               <X className="h-4 w-4" aria-hidden />
             </button>
