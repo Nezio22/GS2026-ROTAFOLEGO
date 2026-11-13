@@ -79,8 +79,13 @@ export default function PontoDetalhe() {
       setComentario("");
       setNota("5");
       carregarAvaliacoes();
-    } catch {
-      setErroForm("Não foi possível enviar a avaliação.");
+    } catch (err) {
+      const motivo = err instanceof Error ? err.message : "";
+      setErroForm(
+        motivo
+          ? `Não foi possível enviar a avaliação. ${motivo}`
+          : "Não foi possível enviar a avaliação."
+      );
     } finally {
       setEnviando(false);
     }
