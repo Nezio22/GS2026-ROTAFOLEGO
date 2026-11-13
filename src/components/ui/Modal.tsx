@@ -31,7 +31,7 @@ export default function Modal({ aberto, onFechar, titulo, children }: ModalProps
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-grafite/50 p-4 backdrop-blur-sm sm:items-center sm:p-6"
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-grafite/50 p-4 backdrop-blur-sm motion-safe:animate-overlay-in sm:items-center sm:p-6"
       onClick={onFechar}
       role="dialog"
       aria-modal="true"
