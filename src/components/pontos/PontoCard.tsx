@@ -32,7 +32,7 @@ export default function PontoCard({
           onClick={() => alternar(ponto.cdPonto)}
           aria-pressed={favorito}
           aria-label={favorito ? `Remover ${ponto.nmPonto} dos salvos` : `Salvar ${ponto.nmPonto}`}
-          className="absolute right-2.5 top-2.5 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-folego-700 shadow-sm backdrop-blur transition hover:bg-white"
+          className="absolute right-2.5 top-2.5 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-folego-700 shadow-sm backdrop-blur transition hover:bg-white"
         >
           <Heart
             className={`h-5 w-5 transition ${favorito ? "fill-terracota text-terracota" : "text-folego-600"}`}

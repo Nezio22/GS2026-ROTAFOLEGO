@@ -81,7 +81,7 @@ export default function TrajetoPointItem({
           checked={selecionado}
           onChange={() => onToggle(ponto.cdPonto)}
           aria-label={`Incluir ${ponto.nmPonto} no trajeto`}
-          className="h-6 w-6 shrink-0 rounded border-folego-300 text-folego-600 focus:ring-folego-500"
+          className="h-7 w-7 shrink-0 cursor-pointer rounded border-folego-300 text-folego-600 focus:ring-folego-500"
         />
       </div>
 

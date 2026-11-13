@@ -241,7 +241,7 @@ export default function AccessibilityBar() {
 
   const linha = "flex items-center justify-between gap-3";
   const chip =
-    "flex h-9 w-9 items-center justify-center rounded-lg border border-folego-100 text-folego-700 transition hover:bg-folego-50 disabled:opacity-40 disabled:hover:bg-transparent";
+    "flex h-11 w-11 items-center justify-center rounded-lg border border-folego-100 text-folego-700 transition hover:bg-folego-50 disabled:opacity-40 disabled:hover:bg-transparent";
   const toggle = (ativo: boolean) =>
     `flex w-full items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-bold transition ${
       ativo ? "bg-folego-700 text-white" : "border border-folego-100 text-folego-700 hover:bg-folego-50"
