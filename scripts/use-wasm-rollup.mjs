@@ -27,24 +27,24 @@ try {
   try {
     // Tenta carregar o Rollup nativo.
     require(nativePath);
-    // Carregou: máquina normal, não precisa fazer nada.
-  } catch (erro) {
-    const bloqueado =
-      erro?.code === "ERR_DLOPEN_FAILED" ||
-      /Application Control|dlopen/i.test(String(erro?.message));
-    if (!bloqueado) process.exit(0);
-
-    // Garante que o pacote WASM está instalado.
+    // Carregou: máquina normal (inclui Vercel/Linux com o binário certo) -> nada a fazer.
+  } catch {
+    // O Rollup nativo não carregou. Dois casos conhecidos, ambos resolvidos com WASM:
+    //  - WDAC / Application Control bloqueia o binário nativo (máquina do dev);
+    //  - o binário nativo da plataforma não foi instalado (bug do npm com
+    //    dependência opcional quando o package-lock vem de outro SO — acontece
+    //    no build da Vercel/CI).
+    // A versão WebAssembly funciona em qualquer plataforma, então caímos nela.
     require.resolve("@rollup/wasm-node/dist/native.js");
 
     writeFileSync(
       nativePath,
       "// Substituído automaticamente por scripts/use-wasm-rollup.mjs\n" +
-        "// (esta máquina bloqueia binários nativos — usando a versão WebAssembly).\n" +
+        "// (Rollup nativo indisponível aqui — usando a versão WebAssembly).\n" +
         "module.exports = require('@rollup/wasm-node/dist/native.js');\n"
     );
     console.log(
-      "[use-wasm-rollup] Rollup nativo bloqueado nesta máquina -> usando a versão WebAssembly."
+      "[use-wasm-rollup] Rollup nativo indisponivel -> usando a versao WebAssembly."
     );
   }
 } catch {
