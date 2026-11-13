@@ -91,8 +91,8 @@ export default function PlanejarTrajeto() {
         )}
 
         {!carregando && !erro && (
-          <div className="mt-8 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
-            <div>
+          <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+            <div className="min-w-0">
               <h2 className="mb-4 text-lg font-extrabold text-folego-700">Pontos disponíveis</h2>
               <div className="space-y-3">
                 {pontosOrdenados.map((p, i) => (
@@ -111,7 +111,7 @@ export default function PlanejarTrajeto() {
               </div>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <TrajetoSummary trajeto={trajeto} />
             </div>
           </div>

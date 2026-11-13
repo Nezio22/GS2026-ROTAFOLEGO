@@ -5,11 +5,14 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    overflow-x: hidden;
+    /* `clip` (em vez de `hidden`) não cria área rolável: impede a página de
+       "escorregar" para o lado quando um elemento fora da tela recebe foco
+       (ex.: o checkbox do card de trajeto). Evita o bug de a tela pular/cortar. */
+    overflow-x: clip;
   }
   body {
     @apply bg-offwhite text-grafite font-sans antialiased;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
   h1,
   h2,
