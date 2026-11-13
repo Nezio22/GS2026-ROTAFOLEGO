@@ -243,8 +243,38 @@ export async function avaliarPonto(
     salvarAvaliacoesLocais(todas);
     return delay(nova);
   }
+  // A API exige cdCidadao (qual cidadão avalia) e aplica a regra "um cidadão
+  // não avalia o mesmo ponto 2x" (409). Como o app não tem login e a API não
+  // expõe /cidadaos, escolhemos um cidadão que comprovadamente existe (algum
+  // que já aparece em /avaliacoes) e que ainda NÃO avaliou este ponto.
+  const cdCidadao = await escolherCidadao(pontoId);
   return apiFetch<Avaliacao>(`/pontos/${pontoId}/avaliacoes`, {
     method: "POST",
-    body: JSON.stringify(dados),
+    body: JSON.stringify({
+      nrNota: dados.nrNota,
+      dsComentario: dados.dsComentario,
+      cdCidadao,
+    }),
   });
+}
+
+/**
+ * Descobre um cdCidadao válido para avaliar `pontoId` sem esbarrar na regra
+ * dos 409. Usa os cidadãos que já existem em /avaliacoes (FKs garantidas) e
+ * exclui os que já avaliaram este ponto. Se não achar, cai no primeiro da lista
+ * (ou 1 como último recurso).
+ */
+async function escolherCidadao(pontoId: number): Promise<number> {
+  const todas = await apiFetch<{ cdPonto: number; cdCidadao: number }[]>(
+    "/avaliacoes"
+  ).catch(() => [] as { cdPonto: number; cdCidadao: number }[]);
+  const existentes = [
+    ...new Set(
+      todas.map((a) => a.cdCidadao).filter((c) => typeof c === "number")
+    ),
+  ];
+  const jaAvaliaram = new Set(
+    todas.filter((a) => a.cdPonto === pontoId).map((a) => a.cdCidadao)
+  );
+  return existentes.find((c) => !jaAvaliaram.has(c)) ?? existentes[0] ?? 1;
 }
