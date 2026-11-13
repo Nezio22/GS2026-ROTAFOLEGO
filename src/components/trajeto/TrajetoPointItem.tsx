@@ -37,7 +37,7 @@ export default function TrajetoPointItem({
       } ${arrastando ? "opacity-40" : ""}`}
     >
       <span
-        className="cursor-grab text-grafite/30 active:cursor-grabbing"
+        className="shrink-0 cursor-grab text-grafite/30 active:cursor-grabbing"
         title="Arraste para reordenar"
         aria-hidden
       >
@@ -62,7 +62,7 @@ export default function TrajetoPointItem({
         checked={selecionado}
         onChange={() => onToggle(ponto.cdPonto)}
         aria-label={`Incluir ${ponto.nmPonto} no trajeto`}
-        className="h-5 w-5 rounded border-folego-300 text-folego-600 focus:ring-folego-500"
+        className="h-5 w-5 shrink-0 rounded border-folego-300 text-folego-600 focus:ring-folego-500"
       />
     </div>
   );
