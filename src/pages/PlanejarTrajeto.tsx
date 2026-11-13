@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type DragEvent } from "react";
+import { ArrowRight } from "lucide-react";
 import PageContainer from "../components/layout/PageContainer";
 import Reveal from "../components/ui/Reveal";
 import Loading from "../components/ui/Loading";
@@ -30,6 +31,13 @@ export default function PlanejarTrajeto() {
     setSelecionados((atual) =>
       atual.includes(id) ? atual.filter((x) => x !== id) : [...atual, id]
     );
+  }
+
+  // No celular, rola até o resumo do trajeto (que fica abaixo da lista).
+  function verResumo() {
+    document
+      .getElementById("resumo-trajeto")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   // Lista na ordem atual (reordenável por arrastar)
@@ -111,12 +119,38 @@ export default function PlanejarTrajeto() {
               </div>
             </div>
 
-            <div className="min-w-0">
+            <div className="min-w-0" id="resumo-trajeto">
               <TrajetoSummary trajeto={trajeto} />
             </div>
           </div>
         )}
+
+        {/* Espaço para a lista não ficar escondida atrás da barra fixa (mobile) */}
+        {trajeto.length > 0 && <div className="h-24 lg:hidden" aria-hidden />}
       </PageContainer>
+
+      {/* Barra de ação fixa no celular: mostra quantas paradas e leva ao resumo.
+          pr-20 reserva espaço para a bolinha de acessibilidade no canto. */}
+      {trajeto.length > 0 && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-folego-100 bg-white/95 px-4 py-3 pr-20 shadow-[0_-4px_20px_-8px_rgba(15,91,79,0.25)] backdrop-blur-md lg:hidden">
+          <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
+            <div className="min-w-0 leading-tight">
+              <p className="text-base font-extrabold text-folego-700">
+                {trajeto.length} {trajeto.length === 1 ? "parada" : "paradas"}
+              </p>
+              <p className="truncate text-xs text-grafite/70">no seu trajeto</p>
+            </div>
+            <button
+              type="button"
+              onClick={verResumo}
+              className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-folego-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-folego-700"
+            >
+              Ver trajeto
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
