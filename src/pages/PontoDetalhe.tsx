@@ -108,7 +108,20 @@ export default function PontoDetalhe() {
     );
   }
 
-  const info = tipoInfo[ponto.tipo];
+  const info = tipoInfo[ponto.tipo] ?? tipoInfo.banco;
+
+  // Destino do mapa: se o ponto tem coordenadas reais, usa-as; senão, cai no
+  // endereço em texto (o Google Maps embute e traça rota a partir de texto, sem
+  // precisar de coordenada nem de chave de API). Assim o mapa aparece inclusive
+  // nos pontos cadastrados pelo app, que nascem sem lat/long.
+  const temCoordenadas = ponto.latitude !== 0 && ponto.longitude !== 0;
+  const enderecoBusca = [ponto.nmPonto, ponto.dsEndereco || ponto.bairro]
+    .filter(Boolean)
+    .join(", ");
+  const destinoMapa = temCoordenadas
+    ? `${ponto.latitude},${ponto.longitude}`
+    : encodeURIComponent(enderecoBusca);
+  const temMapa = temCoordenadas || enderecoBusca.length > 0;
 
   return (
     <div className="py-10 sm:py-14">
@@ -155,7 +168,7 @@ export default function PontoDetalhe() {
 
             <div className="mt-6 flex flex-wrap gap-3">
               <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${ponto.latitude},${ponto.longitude}&travelmode=walking`}
+                href={`https://www.google.com/maps/dir/?api=1&destination=${destinoMapa}&travelmode=walking`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-folego-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-folego-700"
@@ -185,7 +198,7 @@ export default function PontoDetalhe() {
         </div>
 
         {/* Mapa do local */}
-        {ponto.latitude !== 0 && ponto.longitude !== 0 && (
+        {temMapa && (
           <section className="mt-6 overflow-hidden rounded-3xl border border-folego-100 bg-white shadow-card">
             <h2 className="px-6 pt-5 text-base font-extrabold text-folego-700 sm:px-8">
               Onde fica
@@ -193,7 +206,7 @@ export default function PontoDetalhe() {
             <div className="mt-3 aspect-[16/10] w-full sm:aspect-[21/9]">
               <iframe
                 title={`Mapa de ${ponto.nmPonto}`}
-                src={`https://www.google.com/maps?q=${ponto.latitude},${ponto.longitude}&z=16&output=embed`}
+                src={`https://www.google.com/maps?q=${destinoMapa}&z=16&output=embed`}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="h-full w-full border-0"
