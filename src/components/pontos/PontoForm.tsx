@@ -53,8 +53,13 @@ const PontoForm = forwardRef<HTMLDivElement, PontoFormProps>(function PontoForm(
       setTipo("banco");
       setCoberto(false);
       onCreated();
-    } catch {
-      setErroEnvio("Não foi possível cadastrar o ponto. Tente novamente.");
+    } catch (e) {
+      const motivo = e instanceof Error ? e.message : "";
+      setErroEnvio(
+        motivo
+          ? `Não foi possível cadastrar o ponto. ${motivo}`
+          : "Não foi possível cadastrar o ponto. Tente novamente."
+      );
     } finally {
       setEnviando(false);
     }
