@@ -88,21 +88,36 @@ npm run preview
 
 ## Integração com a API Java
 
-> **Estado atual:** o app está em **modo mock** (`USE_MOCK = true`), com os dados guardados
-> no navegador (localStorage), para desenvolver e testar sem depender da API. Isto **ainda
-> não é a integração final exigida** pela disciplina. Quando a API REST da disciplina de
-> Domain Driven Design Using Java estiver publicada no Render, a aplicação passará a consumir
-> os dados reais e esta seção será atualizada para descrever a integração ativa.
+A aplicação consome a **API REST Java (Spring Boot + JDBC)** da disciplina de *Domain Driven
+Design Using Java*, publicada no Render:
 
-Para ligar a API real, em `src/services/api.ts`:
+**`https://rota-folego-api.onrender.com`**
 
-1. troque `const USE_MOCK = true;` para `false`;
-2. ajuste `BASE_URL` para a URL pública da API no Render.
+A integração está **ativa** (`USE_MOCK = false` em `src/services/api.ts`): as telas de pontos
+carregam os dados reais da API via **Fetch** (sem Axios), com tratamento de carregamento,
+erro e lista vazia.
 
-As funções com Fetch, a camada de serviços (`services/`) e a tipagem das respostas
-(`types/`) já estão prontas, com tratamento de carregamento, erro e ausência de dados.
-Operações usadas: **GET** (listar pontos e avaliações) e **POST** (cadastrar ponto e enviar
-avaliação).
+Endpoints:
+
+| Método | Endpoint | Uso |
+|--------|----------|-----|
+| GET | `/pontos` | listar pontos de descanso |
+| GET | `/pontos/{id}` | detalhe de um ponto |
+| GET | `/pontos/{id}/avaliacoes` | avaliações de um ponto |
+| POST | `/pontos` | cadastrar ponto |
+| POST | `/pontos/{id}/avaliacoes` | enviar avaliação |
+
+A camada de serviço (`services/pontoService.ts`) inclui um **adapter** que traduz o JSON da
+API — cujos campos seguem o padrão do banco Oracle (`vlLatitude`, `vlLongitude`) — para o
+modelo usado pelas telas (`latitude`, `longitude`, e o `bairro` derivado do `dsEndereco`).
+Assim a diferença de nomenclatura fica isolada em um único ponto, na borda do sistema.
+
+> **Plano gratuito do Render:** a API hiberna após um período sem uso. A **primeira
+> requisição** depois disso pode levar ~30–60s para "acordar" (cold start) e retornar um 503
+> temporário — basta aguardar e recarregar a página.
+
+Para desenvolver sem depender da API (modo demonstração com dados locais em localStorage),
+basta trocar `USE_MOCK` para `true` em `src/services/api.ts`.
 
 ## Responsividade e acessibilidade
 
@@ -126,7 +141,7 @@ avaliação).
 
 - **Repositório (GitHub):** https://github.com/Nezio22/GS2026-ROTAFOLEGO
 - **Deploy (Vercel):** _a adicionar após o deploy_
-- **API (Render):** _a adicionar quando a API Java estiver no ar_
+- **API (Render):** https://rota-folego-api.onrender.com
 - **Vídeo (YouTube):** _a adicionar_
 
 ## Contato
