@@ -243,7 +243,7 @@ export default function AccessibilityBar() {
   const chip =
     "flex h-9 w-9 items-center justify-center rounded-lg border border-folego-100 text-folego-700 transition hover:bg-folego-50 disabled:opacity-40 disabled:hover:bg-transparent";
   const toggle = (ativo: boolean) =>
-    `flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm font-bold transition ${
+    `flex w-full items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-bold transition ${
       ativo ? "bg-folego-700 text-white" : "border border-folego-100 text-folego-700 hover:bg-folego-50"
     }`;
 
@@ -255,7 +255,7 @@ export default function AccessibilityBar() {
           role="dialog"
           aria-label="Opções de acessibilidade"
           aria-hidden={!aberto}
-          className={`absolute bottom-20 right-0 w-[min(19rem,calc(100vw-2rem))] origin-bottom-right rounded-3xl border border-folego-100 bg-white p-5 shadow-soft transition-[opacity,transform,visibility] duration-200 ease-out motion-reduce:transition-none ${
+          className={`absolute bottom-20 right-0 w-[min(21.5rem,calc(100vw-2rem))] origin-bottom-right rounded-3xl border border-folego-100 bg-white p-6 shadow-soft transition-[opacity,transform,visibility] duration-200 ease-out motion-reduce:transition-none ${
             aberto ? "visible scale-100 opacity-100" : "invisible translate-y-2 scale-95 opacity-0"
           }`}
         >
