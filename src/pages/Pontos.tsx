@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PageContainer from "../components/layout/PageContainer";
 import Reveal from "../components/ui/Reveal";
 import Loading from "../components/ui/Loading";
@@ -8,6 +8,7 @@ import Button from "../components/ui/Button";
 import PontoCard from "../components/pontos/PontoCard";
 import PontoFilters, { type FiltroTipo } from "../components/pontos/PontoFilters";
 import PontoForm from "../components/pontos/PontoForm";
+import Modal from "../components/ui/Modal";
 import { getPontos } from "../services/pontoService";
 import { useFavoritos } from "../hooks/useFavoritos";
 import { distanciaCoordsKm } from "../lib/trajeto";
@@ -27,7 +28,7 @@ export default function Pontos() {
   const [minhaPos, setMinhaPos] = useState<{ lat: number; lng: number } | null>(null);
   const [geoStatus, setGeoStatus] = useState<"idle" | "carregando" | "erro">("idle");
 
-  const formRef = useRef<HTMLDivElement>(null);
+  const [modalAberto, setModalAberto] = useState(false);
 
   function localizarMe() {
     if (!("geolocation" in navigator)) {
@@ -97,7 +98,7 @@ export default function Pontos() {
   );
 
   function irParaCadastro() {
-    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setModalAberto(true);
   }
 
   function limparFiltros() {
@@ -226,11 +227,12 @@ export default function Pontos() {
           )}
         </div>
 
-        {/* Cadastro */}
-        <div className="mt-14 scroll-mt-24">
-          <PontoForm ref={formRef} onCreated={carregar} />
-        </div>
       </PageContainer>
+
+      {/* Cadastro (popup) */}
+      <Modal aberto={modalAberto} onFechar={() => setModalAberto(false)} titulo="Cadastrar um ponto">
+        <PontoForm onCreated={carregar} />
+      </Modal>
     </div>
   );
 }

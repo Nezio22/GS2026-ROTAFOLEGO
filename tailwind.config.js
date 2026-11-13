@@ -42,10 +42,15 @@ export default {
           "0%,100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-8px)" },
         },
+        "modal-in": {
+          "0%": { opacity: "0", transform: "translateY(12px) scale(0.98)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.6s ease both",
         float: "float 6s ease-in-out infinite",
+        "modal-in": "modal-in 0.18s ease-out both",
       },
     },
   },
