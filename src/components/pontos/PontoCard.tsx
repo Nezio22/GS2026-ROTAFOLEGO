@@ -13,7 +13,7 @@ export default function PontoCard({
   ponto: PontoDescanso;
   distanciaKm?: number;
 }) {
-  const info = tipoInfo[ponto.tipo];
+  const info = tipoInfo[ponto.tipo] ?? tipoInfo.banco;
   const { isFavorito, alternar } = useFavoritos();
   const favorito = isFavorito(ponto.cdPonto);
 
