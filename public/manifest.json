@@ -1,0 +1,27 @@
+{
+  "name": "Rota do Fôlego",
+  "short_name": "Rota do Fôlego",
+  "description": "Trajetos a pé planejados por pontos de descanso, para idosos, gestantes e pessoas com mobilidade reduzida.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAF7EF",
+  "theme_color": "#0F5B4F",
+  "lang": "pt-BR",
+  "categories": ["health", "navigation", "lifestyle"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
