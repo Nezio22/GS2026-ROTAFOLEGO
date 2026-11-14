@@ -55,6 +55,13 @@ export default function PlanejarTrajeto() {
     [pontosOrdenados, selecionados]
   );
 
+  // Enquanto houver paradas, marca o body para a bolinha de acessibilidade subir
+  // e não cobrir a barra fixa (regra no index.css). Limpa ao sair da página.
+  useEffect(() => {
+    document.body.classList.toggle("com-barra-trajeto", trajeto.length > 0);
+    return () => document.body.classList.remove("com-barra-trajeto");
+  }, [trajeto.length]);
+
   function onDragStart(index: number) {
     setDragIndex(index);
   }
@@ -130,27 +137,33 @@ export default function PlanejarTrajeto() {
       </PageContainer>
 
       {/* Barra de ação fixa no celular: mostra quantas paradas e leva ao resumo.
-          pr-20 reserva espaço para a bolinha de acessibilidade no canto. */}
-      {trajeto.length > 0 && (
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-folego-100 bg-white/95 px-4 py-3 pr-20 shadow-[0_-4px_20px_-8px_rgba(15,91,79,0.25)] backdrop-blur-md lg:hidden">
-          <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
-            <div className="min-w-0 leading-tight">
-              <p className="text-base font-extrabold text-folego-700">
-                {trajeto.length} {trajeto.length === 1 ? "parada" : "paradas"}
-              </p>
-              <p className="truncate text-xs text-grafite/70">no seu trajeto</p>
-            </div>
-            <button
-              type="button"
-              onClick={verResumo}
-              className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-folego-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-folego-700"
-            >
-              Ver trajeto
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </button>
+          Fica sempre montada e desliza/esmaece ao entrar e sair (animação). */}
+      <div
+        aria-hidden={trajeto.length === 0}
+        className={`fixed inset-x-0 bottom-0 z-40 border-t border-folego-100 bg-white/95 px-4 py-3 shadow-[0_-4px_20px_-8px_rgba(15,91,79,0.25)] backdrop-blur-md transition-all duration-300 ease-out motion-reduce:transition-none lg:hidden ${
+          trajeto.length > 0
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none translate-y-full opacity-0"
+        }`}
+      >
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
+          <div className="min-w-0 leading-tight">
+            <p className="text-base font-extrabold text-folego-700">
+              {trajeto.length} {trajeto.length === 1 ? "parada" : "paradas"}
+            </p>
+            <p className="truncate text-xs text-grafite/70">no seu trajeto</p>
           </div>
+          <button
+            type="button"
+            onClick={verResumo}
+            tabIndex={trajeto.length === 0 ? -1 : undefined}
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-folego-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-folego-700"
+          >
+            Ver trajeto
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </button>
         </div>
-      )}
+      </div>
     </div>
   );
 }

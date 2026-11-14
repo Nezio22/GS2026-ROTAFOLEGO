@@ -49,6 +49,15 @@
   }
 }
 
+/* Barra fixa do Planejar (mobile): quando ela aparece, sobe a bolinha de
+   acessibilidade para ela ficar ACIMA da barra, e não na frente. A classe
+   .com-barra-trajeto entra/sai no body e a transição da bolinha anima o movimento. */
+@media (max-width: 1023px) {
+  body.com-barra-trajeto .barra-acessibilidade {
+    transform: translateY(-4.75rem);
+  }
+}
+
 /* Modo alto contraste (acessibilidade), ativado na barra de acessibilidade.
    Escurece textos secundarios, reforca bordas e sublinha links. */
 .modo-contraste body {

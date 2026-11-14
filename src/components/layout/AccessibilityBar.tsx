@@ -248,7 +248,10 @@ export default function AccessibilityBar() {
     }`;
 
   return (
-    <div ref={widgetRef} className="fixed bottom-4 right-4 z-50 sm:bottom-6 sm:right-6">
+    <div
+      ref={widgetRef}
+      className="barra-acessibilidade fixed bottom-4 right-4 z-50 transition-transform duration-300 ease-out motion-reduce:transition-none sm:bottom-6 sm:right-6"
+    >
       {/* Painel */}
       {
         <div
