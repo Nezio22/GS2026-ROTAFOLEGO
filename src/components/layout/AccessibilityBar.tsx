@@ -115,6 +115,28 @@ export default function AccessibilityBar() {
     setLendo(false);
   }
 
+  // Fala um rotulo curto imediatamente, interrompendo qualquer leitura em andamento.
+  function falarRotulo(texto: string) {
+    if (!TEM_VOZ || !texto) return;
+    sessaoRef.current += 1;
+    limparDestaque();
+    setLendo(false);
+    window.speechSynthesis.cancel();
+    const fala = new SpeechSynthesisUtterance(texto);
+    fala.lang = "pt-BR";
+    fala.rate = velRef.current;
+    window.speechSynthesis.speak(fala);
+  }
+
+  // Anuncia o nome do proprio botao do painel ao passar o mouse / clicar.
+  // Os controles de voz ("Ouvir a pagina" e "Falar ao passar") falam SEMPRE,
+  // mesmo com a opcao desligada. Os demais (contraste, fonte, velocidade) so
+  // falam quando "Falar ao passar" esta ligado.
+  function anunciar(texto: string, sempre = false) {
+    if (!sempre && !falarAoPassar) return;
+    falarRotulo(texto);
+  }
+
   // Ao trocar de pagina: para a leitura. So recomeça se o usuario clicar.
   useEffect(() => {
     pararLeitura();
@@ -282,6 +304,7 @@ export default function AccessibilityBar() {
                 <button
                   type="button"
                   onClick={() => setNivel((n) => Math.max(0, n - 1))}
+                  onMouseEnter={() => anunciar("Diminuir tamanho da fonte")}
                   disabled={nivel === 0}
                   aria-label="Diminuir tamanho da fonte"
                   className={chip}
@@ -291,6 +314,7 @@ export default function AccessibilityBar() {
                 <button
                   type="button"
                   onClick={() => setNivel(0)}
+                  onMouseEnter={() => anunciar("Restaurar tamanho padrão da fonte")}
                   disabled={nivel === 0}
                   aria-label="Restaurar tamanho padrão da fonte"
                   className={chip}
@@ -300,6 +324,7 @@ export default function AccessibilityBar() {
                 <button
                   type="button"
                   onClick={() => setNivel((n) => Math.min(ESCALAS.length - 1, n + 1))}
+                  onMouseEnter={() => anunciar("Aumentar tamanho da fonte")}
                   disabled={nivel === ESCALAS.length - 1}
                   aria-label="Aumentar tamanho da fonte"
                   className={chip}
@@ -313,6 +338,7 @@ export default function AccessibilityBar() {
             <button
               type="button"
               onClick={() => setContraste((c) => !c)}
+              onMouseEnter={() => anunciar("Alto contraste")}
               aria-pressed={contraste}
               className={toggle(contraste)}
             >
@@ -325,6 +351,7 @@ export default function AccessibilityBar() {
                 <button
                   type="button"
                   onClick={ouvirPagina}
+                  onMouseEnter={() => anunciar(lendo ? "Parar leitura" : "Ouvir a página", true)}
                   aria-pressed={lendo}
                   className={toggle(lendo)}
                 >
@@ -343,6 +370,7 @@ export default function AccessibilityBar() {
                 <button
                   type="button"
                   onClick={() => setVelIndex((v) => (v + 1) % VELOCIDADES.length)}
+                  onMouseEnter={() => anunciar(`Velocidade da voz: ${VELOCIDADES[velIndex].label}`)}
                   aria-label={`Velocidade da voz: ${VELOCIDADES[velIndex].label}. Clique para alterar.`}
                   className={toggle(false)}
                 >
@@ -351,7 +379,12 @@ export default function AccessibilityBar() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setFalarAoPassar((v) => !v)}
+                  onClick={() => {
+                    const novo = !falarAoPassar;
+                    setFalarAoPassar(novo);
+                    anunciar(`Falar ao passar ${novo ? "ligado" : "desligado"}`, true);
+                  }}
+                  onMouseEnter={() => anunciar("Falar ao passar", true)}
                   aria-pressed={falarAoPassar}
                   className={toggle(falarAoPassar)}
                 >
