@@ -16,31 +16,31 @@ export const tipoInfo: Record<TipoPonto, TipoMeta> = {
     label: "Banco",
     badge: "bg-folego-100 text-folego-700",
     Icon: Armchair,
-    imagem: "/images/02_Pontos/ponto_01_banco_praca.png",
+    imagem: "/images/02_Pontos/ponto_01_banco_praca_melhor.webp",
   },
   sombra: {
     label: "Sombra",
     badge: "bg-[#e3efe0] text-[#3f6b3a]",
     Icon: TreePine,
-    imagem: "/images/02_Pontos/ponto_02_sombra_ipes.png",
+    imagem: "/images/02_Pontos/ponto_02_sombra_ipes.webp",
   },
   marquise: {
     label: "Marquise",
     badge: "bg-[#f1e6cf] text-[#8a6d2f]",
     Icon: Umbrella,
-    imagem: "/images/02_Pontos/ponto_03_marquise_mercado.png",
+    imagem: "/images/02_Pontos/ponto_03_marquise_mercado.webp",
   },
   bebedouro: {
     label: "Bebedouro",
     badge: "bg-[#dcefe9] text-folego-700",
     Icon: GlassWater,
-    imagem: "/images/02_Pontos/ponto_04_bebedouro_parque.png",
+    imagem: "/images/02_Pontos/ponto_04_bebedouro_parque.webp",
   },
   banheiro: {
     label: "Banheiro acessível",
     badge: "bg-[#f3e0d6] text-[#a4552f]",
     Icon: Accessibility,
-    imagem: "/images/02_Pontos/ponto_05_banheiro_acessivel.png",
+    imagem: "/images/02_Pontos/ponto_05_banheiro_acessivel.webp",
   },
 };
 
