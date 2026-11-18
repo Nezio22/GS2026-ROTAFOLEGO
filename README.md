@@ -142,7 +142,7 @@ basta trocar `USE_MOCK` para `true` em `src/services/api.ts`.
 - **Repositório (GitHub):** https://github.com/Nezio22/GS2026-ROTAFOLEGO
 - **Deploy (Vercel):** https://rotafolego.vercel.app
 - **API (Render):** https://rota-folego-api.onrender.com
-- **Vídeo (YouTube):** _a adicionar_
+- **Vídeo (YouTube):** https://youtu.be/uUdhLKGCjdE
 
 ## Contato
 
